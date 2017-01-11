@@ -1,0 +1,30 @@
+- Talk to the Arduino
+- Get RGB values and send it to single LEDs
+- Make a few simple LED patterns
+- Build a simple GUI
+- RGB selector on GUI
+- Separate threads for GUI and Arduino comms
+- Saving profiles
+- Pattern timing
+- More patterns
+- Key logging for patterns
+- Demo for what the strip does in the GUI
+- Error detection
+- Multiple strip support
+- Strip size support (other than the 144 length strip that will be started out with) (at this point you should be able to select a grid of LEDs if needed)
+- Support for buttons and switches on the Arduino
+- Automatic profile detection
+- Save files that make enough sense to be manually editable
+- Multi-strip patterns
+- Ability to unplug the Arduino and it will still operate (compile a profile onto the arduino)
+- Clean up the GUI
+- Program detection to automatically load certian profiles
+- Other sensor support
+- Custom pattern creator within the GUi
+- Saving custom patterns
+- Loading saves
+- Changing colour based on system time
+- Support for different/multiple ports on the Arduino that are used by the LEDs
+- Use a picture of the LED strip to make the demo for the pattern on the GUI look nice
+- Music visualization
+- Date/time detection

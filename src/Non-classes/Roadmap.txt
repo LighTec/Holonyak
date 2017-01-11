@@ -1,0 +1,8 @@
+V0.03: extend RBG into the Pixel object, add simple math functions
+V0.04:
+V0.05: Implementing the Arulink Java plugin, testing the link between arduino and computer
+V0.051: Getting the Arduino to act, ex. turn on an LED or send a message when a button is pressed
+V0.06: Testing how to use the LED strip
+V0.1: Building a GUI, just a button that starts the connection then turns one of the LEDs on the strip on/off
+V0.11: RGB support, just turns all LEDs on the strip to the selected colour
+V0.12: ?

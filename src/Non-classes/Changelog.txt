@@ -1,0 +1,6 @@
+V0.01: initial. Main and ArduinoComms class created.
+
+V0.02: Setup for the LED object, for storing colour values for each LED, and
+their position within the setup of the matrix/strip.
+
+V0.03: Added MVC Architecture
