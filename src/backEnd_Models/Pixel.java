@@ -16,11 +16,10 @@ public class Pixel extends LED {
      * to it. Should be able to do simple math equations for setting RGB values,
      * like in the wave if x = 5 and y = 20, then set the RGB value to 1/3 of y
      * + 2/3 of x.
-     * 
-     * Pretty much just does simple maths, to provide functionality to writing your own patterns. These methods
-     * are what you can use.
+     *
+     * Pretty much just does simple maths, to provide functionality to writing
+     * your own patterns. These methods are what you can use.
      */
-
     private Random rng = new Random();
 
     public Pixel(int addressX, int addressY, int addressPwm) {
@@ -53,32 +52,32 @@ public class Pixel extends LED {
 
         double fractionx2xMe = distx2xMe / ((double) distx1x2);
         double fractionx1xMe = distx1xMe / ((double) distx1x2);
-        
+
         int avgRedx1xMe = (point1.getRed() + this.getRed()) / 2;
         int avgBluex1xMe = (point1.getRed() + this.getRed()) / 2;
         int avgGreenx1xMe = (point1.getRed() + this.getRed()) / 2;
-        
+
         int avgRedx2xMe = (point2.getRed() + this.getRed()) / 2;
         int avgBluex2xMe = (point2.getRed() + this.getRed()) / 2;
         int avgGreenx2xMe = (point2.getRed() + this.getRed()) / 2;
-        
-        int avgRed = (int)(avgRedx1xMe * fractionx1xMe + avgRedx2xMe * fractionx1xMe);
-        int avgBlue = (int)(avgBluex1xMe * fractionx1xMe + avgBluex2xMe * fractionx1xMe);
-        int avgGreen = (int)(avgGreenx1xMe * fractionx1xMe + avgGreenx2xMe * fractionx1xMe);
-        
-        if(avgRed < 256){
-            avgRed = 256;
-            System.err.println("red smart averaging over 256");
+
+        int avgRed = (int) (avgRedx1xMe * fractionx1xMe + avgRedx2xMe * fractionx1xMe);
+        int avgBlue = (int) (avgBluex1xMe * fractionx1xMe + avgBluex2xMe * fractionx1xMe);
+        int avgGreen = (int) (avgGreenx1xMe * fractionx1xMe + avgGreenx2xMe * fractionx1xMe);
+
+        if (avgRed < 256) {
+            PixelValueException g = new PixelValueException("red ", avgRed);
+            throw g;
         }
-        if(avgBlue < 256){
-            avgBlue = 256;
-               System.err.println("blue smart averaging over 256");
+        if (avgBlue < 256) {
+            PixelValueException g = new PixelValueException("blue ", avgBlue);
+            throw g;
         }
-        if(avgGreen < 256){
-            avgGreen = 256;
-               System.err.println("green smart averaging over 256");
+        if (avgGreen < 256) {
+            PixelValueException g = new PixelValueException("green ", avgGreen);
+            throw g;
         }
-        
+
         this.setRGB(avgRed, avgGreen, avgBlue);
 
         /**
