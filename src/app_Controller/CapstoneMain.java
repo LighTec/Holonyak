@@ -5,7 +5,7 @@ package app_Controller;
 
 /**
  *Nothing really within this class, just get the "look and feel" of the OS, then creates a runnable
- * of TheApp class in order to initialize the program.
+ * of The_____ classes in order to initialize the program.
  * 
  * 
  * @author Kell
@@ -33,7 +33,9 @@ public class CapstoneMain {
             System.err.println(ex);
         }
 
-        java.awt.EventQueue.invokeLater(new TheApp());
+        java.awt.EventQueue.invokeLater(new TheGUI());
+        java.awt.EventQueue.invokeLater(new TheBackend());
+        java.awt.EventQueue.invokeLater(new TheSerialComms());
     }
     
 }
