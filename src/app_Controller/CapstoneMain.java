@@ -3,9 +3,11 @@
  */
 package app_Controller;
 
+import frontEnd_ViewController.MainViewDisplayFX;
+
 /**
- *Nothing really within this class, just get the "look and feel" of the OS, then creates a runnable
- * of The_____ classes in order to initialize the program.
+ *Nothing really within this class, just get the "look and feel" of the OS, then creates a javaFX
+ * window. The res is handled within the javaFX background thread creation.
  * 
  * 
  * @author Kell
@@ -32,10 +34,8 @@ public class CapstoneMain {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             System.err.println(ex);
         }
-
-        java.awt.EventQueue.invokeLater(new TheGUI());
-        java.awt.EventQueue.invokeLater(new TheBackend());
-        java.awt.EventQueue.invokeLater(new TheSerialComms());
+        System.out.println("Main handled successfully, handling off to MainViewDisplayFX");
+            MainViewDisplayFX.init(args);
     }
     
 }
