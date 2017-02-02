@@ -18,7 +18,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -54,12 +53,15 @@ public class MainViewDisplayFX extends Application {
         
         Text scenetitle = new Text("Welcome");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle, 0, 0, 2, 1);
+        grid.add(scenetitle, 2, 0, 2, 1);
 
         this.MVControl = new ModelsAndViewsControllerFX();
 
         Button HelloBtn = new Button();
         Button CalcFibBtn = new Button();
+        Button SetLed = new Button();
+        
+        TextField LEDset = new TextField();
         TextField TextField = new TextField();
 
         grid.add(HelloBtn, 0, 0, 1, 1);
