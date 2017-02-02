@@ -59,16 +59,26 @@ public class MainViewDisplayFX extends Application {
 
         Button HelloBtn = new Button();
         Button CalcFibBtn = new Button();
-        Button SetLed = new Button();
+        Button SetLedBtn = new Button();
         
-        TextField LEDset = new TextField();
+        Text LedConfirm = new Text("[pixel index]![red colour]![green colour]![blue colour]");
+        LedConfirm.setFont(Font.font("Tahoma", FontWeight.NORMAL, 24));
+        
+        TextField LedSet = new TextField();
         TextField TextField = new TextField();
 
         grid.add(HelloBtn, 0, 0, 1, 1);
         grid.add(CalcFibBtn, 0, 1, 1, 1);
+        grid.add(SetLedBtn, 3,2,1,1);
+        
+        grid.add(LedSet,3,0,1,2);
+        
+        grid.add(LedConfirm, 3,1,1,2);
         grid.add(TextField, 0, 2, 1, 2);
 
         HelloBtn.setText("Say 'Hello World'");
+        
+        SetLedBtn.setText("Set the led a colour");
         
         CalcFibBtn.setText("Print out fib of this index:");
 
