@@ -8,12 +8,16 @@
  * program.
  */
 package frontEnd_ViewController;
+
 /**
  *
  * @author kell-gigabyte
  */
-public class ModelsAndViewsControllerFX {
-    public ModelsAndViewsControllerFX(){
+public class ModelsAndViewsControllerFX{
+
+    public ModelsAndViewsControllerFX() {
+        //this.HelloBtn.setOnAction((event) -> this.HelloWorld(event));
+        // this.CalcFibBtn.setOnAction(new CalcFib());
         System.out.println("View controller object created");
     }
 
@@ -32,12 +36,19 @@ public class ModelsAndViewsControllerFX {
         this.theBackendModel = aBackend;
     }
      */
-    public void HelloWorld() {
+    protected void CalcFib(String s) {
+        System.out.println(s);
+        int index = Integer.parseInt(s);
+        long endResult = equateFibonacci(index);
+        System.out.println("Fib result for index " + index + " is " + endResult);
+    }
+
+    protected void HelloWorld() {
         System.out.println("Hello world!");
     }
-    
-    public long equateFibonacci(int index){
-                switch (index) {
+
+    private long equateFibonacci(int index) {
+        switch (index) {
             case 1:
                 return 5;
             case 0:
@@ -47,5 +58,6 @@ public class ModelsAndViewsControllerFX {
             default:
                 return equateFibonacci(index - 1) + equateFibonacci(index - 2);
         }
+
     }
 }
