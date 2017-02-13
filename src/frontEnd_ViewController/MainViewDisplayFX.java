@@ -11,7 +11,6 @@ package frontEnd_ViewController;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -39,13 +38,13 @@ public class MainViewDisplayFX extends Application {
         launch(args);
 
     }
-
+    
     ModelsAndViewsControllerFX MVControl;
 
     @Override
     public void start(Stage primaryStage) {
-         this.MVControl = new ModelsAndViewsControllerFX();
-
+        this.MVControl = new ModelsAndViewsControllerFX();
+        
         System.out.println("Initializing components....");
 
         primaryStage.setTitle("JavaFX Testground, Capstone V0.03");
@@ -55,19 +54,22 @@ public class MainViewDisplayFX extends Application {
         HBox hbox = addHBox();
         root.setTop(hbox);
 
-      //  root.setCenter(addGridPane());
-
+        //  root.setCenter(addGridPane());
         root.setRight(addFlowPane());
 
         root.setCenter(addAnchorPane(addGridPane()));
 
         Scene scene = new Scene(root);
+        System.out.println("Main stage set, creating and showing init popup window.");
+        InitPopup InfoGetter = new InitPopup();
         
-       
+        InfoGetter.run();
+        
+        Settings settings = InfoGetter.SaveSettings();
         
         primaryStage.setScene(scene);
         System.out.println("Showing the primary stage.");
-        
+
         primaryStage.show();
     }
 
@@ -86,7 +88,7 @@ public class MainViewDisplayFX extends Application {
 
         return hbox;
     }
-    
+
     protected TextField FibText;
 
     private GridPane addGridPane() {
@@ -95,10 +97,10 @@ public class MainViewDisplayFX extends Application {
         grid.setAlignment(Pos.TOP_RIGHT);
         //grid.setHgap(25);
         //grid.setVgap(25);
-       grid.setPadding(new Insets(0, 15, 50, 15));
-       
-       grid.setStyle("-fx-background-color:#0000FF;");
-       
+        grid.setPadding(new Insets(0, 15, 50, 15));
+
+       //grid.setStyle("-fx-background-color:#0000FF;");
+
         Text scenetitle = new Text("Welcome");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         scenetitle.setFill(Color.SALMON);
@@ -108,7 +110,7 @@ public class MainViewDisplayFX extends Application {
 
         TextField LedSetText = new TextField();
         this.FibText = new TextField();
-        this.FibText.setText("Fib Number here");
+        this.FibText.setPromptText("Fib Number here");
 
         grid.add(scenetitle, 0, 0, 2, 1);
 
@@ -117,10 +119,7 @@ public class MainViewDisplayFX extends Application {
         grid.add(LedConfirm, 2, 1, 1, 1);
         grid.add(FibText, 0, 2, 1, 1);
 
-        
-
         //grid.setGridLinesVisible(true);
-
         return grid;
     }
 
@@ -131,19 +130,19 @@ public class MainViewDisplayFX extends Application {
         flow.setVgap(4);
         flow.setHgap(4);
         flow.setPrefWrapLength(170); // preferred width allows for two columns
-        flow.setStyle("-fx-background-color:#00FF00;");
+        //flow.setStyle("-fx-background-color:#00FF00;");
         Button HelloBtn = new Button();
         Button CalcFibBtn = new Button();
         Button SetLedBtn = new Button();
 
         HelloBtn.setText("Say 'Hello World'");
-        
+
         HelloBtn.setOnAction(this::HelloWorld);
 
         SetLedBtn.setText("Set the led a colour");
 
         CalcFibBtn.setText("Print out fib of this index:");
-        
+
         CalcFibBtn.setOnAction(this::CalcFib);
 
         flow.getChildren().addAll(HelloBtn, CalcFibBtn, SetLedBtn);
@@ -154,8 +153,8 @@ public class MainViewDisplayFX extends Application {
     private AnchorPane addAnchorPane(GridPane grid) {
 
         AnchorPane anchorpane = new AnchorPane();
-        
-        anchorpane.setStyle("-fx-background-color: #FFD700");
+
+        //anchorpane.setStyle("-fx-background-color: #FFD700");
 
         Button buttonSave = new Button("Save");
         Button buttonCancel = new Button("Cancel");
@@ -177,8 +176,8 @@ public class MainViewDisplayFX extends Application {
     private void HelloWorld(ActionEvent event) {
         this.MVControl.HelloWorld();
     }
-    
-    private void CalcFib(ActionEvent event){
+
+    private void CalcFib(ActionEvent event) {
         String s = this.FibText.getText();
         this.MVControl.CalcFib(s);
     }

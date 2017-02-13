@@ -16,7 +16,7 @@
 - Automatic profile detection
 - Save files that make enough sense to be manually editable
 - Multi-strip patterns
-- Ability to unplug the Arduino and it will still operate (compile a profile onto the arduino)
+- Ability to unplug the Arduino and it will still operate (compile a profile onto the arduino) (compiling the Arduino)
 - Clean up the GUI
 - Program detection to automatically load certian profiles
 - Other sensor support
