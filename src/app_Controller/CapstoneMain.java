@@ -34,7 +34,7 @@ public class CapstoneMain {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             System.err.println(ex);
         }
-        System.out.println("Main handled successfully, handling off to MainViewDisplayFX");
+      //  System.out.println("Main handled successfully, handling off to MainViewDisplayFX");
             MainViewDisplayFX.init(args);
     }
     

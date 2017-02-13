@@ -45,7 +45,7 @@ public class MainViewDisplayFX extends Application {
     public void start(Stage primaryStage) {
         this.MVControl = new ModelsAndViewsControllerFX();
         
-        System.out.println("Initializing components....");
+       // System.out.println("Initializing components....");
 
         primaryStage.setTitle("JavaFX Testground, Capstone V0.03");
 
@@ -60,7 +60,7 @@ public class MainViewDisplayFX extends Application {
         root.setCenter(addAnchorPane(addGridPane()));
 
         Scene scene = new Scene(root);
-        System.out.println("Main stage set, creating and showing init popup window.");
+      //  System.out.println("Main stage set, creating and showing init popup window.");
         InitPopup InfoGetter = new InitPopup();
         
         InfoGetter.run();
@@ -68,7 +68,7 @@ public class MainViewDisplayFX extends Application {
         Settings settings = InfoGetter.SaveSettings();
         
         primaryStage.setScene(scene);
-        System.out.println("Showing the primary stage.");
+      //  System.out.println("Showing the primary stage.");
 
         primaryStage.show();
     }

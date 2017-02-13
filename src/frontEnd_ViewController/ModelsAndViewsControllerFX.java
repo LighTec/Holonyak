@@ -18,7 +18,7 @@ public class ModelsAndViewsControllerFX{
     public ModelsAndViewsControllerFX() {
         //this.HelloBtn.setOnAction((event) -> this.HelloWorld(event));
         // this.CalcFibBtn.setOnAction(new CalcFib());
-        System.out.println("View controller object created");
+       // System.out.println("View controller object created");
     }
 
     /*
