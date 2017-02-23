@@ -9,6 +9,10 @@
  */
 package frontEnd_ViewController;
 
+import app_Controller.Kaizen_85;
+import backEnd_Models.BackEndManager;
+import backEnd_Models.GeneralSettingsException;
+
 /**
  *
  * @author kell-gigabyte
@@ -20,7 +24,7 @@ public class ModelsAndViewsControllerFX{
         // this.CalcFibBtn.setOnAction(new CalcFib());
        // System.out.println("View controller object created");
     }
-
+    private BackEndManager theBackEnd;
     /*
      *
      * ModelsAndViewsController needs to have an instance variable to reference
@@ -37,6 +41,7 @@ public class ModelsAndViewsControllerFX{
     }
      */
     protected void CalcFib(String s) {
+        Kaizen_85.newEvent("Calculated the fibonacci number of number " + s);
         System.out.println(s);
         int index = Integer.parseInt(s);
         long endResult = equateFibonacci(index);
@@ -44,7 +49,9 @@ public class ModelsAndViewsControllerFX{
     }
 
     protected void HelloWorld() {
+        Kaizen_85.newEvent("Hello World button pressed, HELLO WORLD.");
         System.out.println("Hello world!");
+        Kaizen_85.panic();
     }
 
     private long equateFibonacci(int index) {
@@ -59,5 +66,9 @@ public class ModelsAndViewsControllerFX{
                 return equateFibonacci(index - 1) + equateFibonacci(index - 2);
         }
 
+    }
+    protected void finalizeInit(Settings s) throws GeneralSettingsException{
+        this.theBackEnd = new BackEndManager(s);
+        Kaizen_85.newEvent("Handing off the Settings class to the BandEndManager.");
     }
 }

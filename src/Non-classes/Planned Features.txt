@@ -1,7 +1,6 @@
 - Talk to the Arduino
 - Get RGB values and send it to single LEDs
 - Make a few simple LED patterns
-- Build a simple GUI
 - RGB selector on GUI
 - Separate threads for GUI and Arduino comms
 - Saving profiles

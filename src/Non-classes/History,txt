@@ -1,4 +1,0 @@
-V0.03: JavaFX initial creation
-V0.04: Introduction of Gridpane to create a GUI
-V0.05: A more complex, easy to manage GUI. Also stub class for managing GUI and backend
-V0.06: Created an initialization dialouge to gather info from the user, implemented within the view. Also created a settings class to compliment this.

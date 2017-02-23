@@ -36,6 +36,7 @@ public class CapstoneMain {
         }
       //  System.out.println("Main handled successfully, handling off to MainViewDisplayFX");
             MainViewDisplayFX.init(args);
+            Kaizen_85.newEvent("Main class successfully handled, handing off to JavaFX application.");
     }
     
 }

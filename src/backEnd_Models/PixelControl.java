@@ -9,6 +9,8 @@
  */
 package backEnd_Models;
 
+import app_Controller.Kaizen_85;
+
 /**
  *This class is the manager for an array of Pixel objects. Acts as a messanger and "glue" between the
  * actions class within the GUI, the serial communications class, and the individual Pixel classes. Also connects
@@ -18,5 +20,27 @@ package backEnd_Models;
  * @author kell-gigabyte
  */
 public class PixelControl {
+    
+    Pixel[] LEDmatrix;
+    
+    String patternFolder;
+    
+    public PixelControl(int length, boolean whitePixel){
+        Kaizen_85.newEvent("PixelControl created, using a strip");
+    }
+    
+    public PixelControl(int length, int width, boolean whitePixel){
+        Kaizen_85.newEvent("PixelControl created, using a matrix");
+    }
+    
+    public void setPatternFolder(String s){
+        this.patternFolder = s;
+    }
+    
+    public String getPatternFolder(){
+        return this.patternFolder;
+    }
+    
+    
     
 }

@@ -9,13 +9,16 @@
  */
 package frontEnd_ViewController;
 
+import app_Controller.Kaizen_85;
+import java.io.File;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
@@ -25,7 +28,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.util.Pair;
+import javafx.stage.DirectoryChooser;
 
 /**
  * This class is meant to be called in order to create a dialouge window, which
@@ -37,18 +40,18 @@ import javafx.util.Pair;
  *
  * @author kell-gigabyte
  */
-public class InitPopup extends MainViewDisplayFX
-{
+public class InitPopup extends MainViewDisplayFX {
 
     boolean isMatrix;
     boolean isRGBW;               //if the LED strip supports an extra addressable white LED
 
     boolean isComplete = false;
 
-    String patternFolder;
+    String patternFolder = "";
+    String logFolder = "";
 
     int stripLength;
-    int stripWidnth;
+    int stripWidth;
 
     public InitPopup() {
 
@@ -61,9 +64,15 @@ public class InitPopup extends MainViewDisplayFX
     protected boolean isComplete() {
         return this.isComplete;
     }
+    
+    private void setLogFolder(String s){
+            this.logFolder = s;
+        }
+    
+    private TextField LedStrText = new TextField();
 
     private void createStage() {         // creates the GUI for the popup
-        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        Dialog dialog = new Dialog<>();
         dialog.setTitle("Just need a little bit of info");
         dialog.setHeaderText("Hello, I'd just like you to let me know about your LED strip.");
 
@@ -74,7 +83,8 @@ public class InitPopup extends MainViewDisplayFX
         String MatrixStr = "In a Matrix";
         String y = "Yes";
         String n = "No";
-
+        String logFolderStr = "Click here to choose a log location.";
+        
         ToggleButton RGBW = new ToggleButton(n);
         ToggleGroup aRGBW = new ToggleGroup();
         RGBW.setToggleGroup(aRGBW);
@@ -82,7 +92,30 @@ public class InitPopup extends MainViewDisplayFX
         ToggleGroup aStrip = new ToggleGroup();
         Strip.setToggleGroup(aStrip);
 
+        Button LogBtn = new Button(logFolderStr);
+
+        LogBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                String logFolder;
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        File selectedFolder = directoryChooser.showDialog(dialog.getOwner());
+        if (selectedFolder == null) {
+        }else{
+
+          setLogFolder(selectedFolder.getAbsolutePath());
+          //System.out.println(selectedFolder.getAbsolutePath());
+          checkData();
+        }
+            }
+            
+        });
+        
+        
+        
         aStrip.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
             public void changed(ObservableValue<? extends Toggle> ov,
                     Toggle toggle, Toggle new_toggle) {
                 if (new_toggle == null) {
@@ -97,6 +130,7 @@ public class InitPopup extends MainViewDisplayFX
         });
 
         aRGBW.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
             public void changed(ObservableValue<? extends Toggle> ov,
                     Toggle toggle, Toggle new_toggle) {
                 if (new_toggle == null) {
@@ -115,49 +149,63 @@ public class InitPopup extends MainViewDisplayFX
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
 
-        TextField username = new TextField();
-        username.setPromptText("Enter number here");
+        
+        LedStrText.setPromptText("Enter number here");
 
         grid.add(new Label("Number of LED's total:"), 0, 0);
-        grid.add(username, 1, 0);
+        grid.add(LedStrText, 1, 0);
         grid.add(new Label("Does it have an addressable white pixel?"), 0, 1);
         grid.add(RGBW, 1, 1);
-        grid.add(new Label("Are your LED's in an matrix, or a strip?"), 0, 2, 1, 2);
+        grid.add(new Label("Are your LED's in an matrix, or a strip?"), 0, 2);
         grid.add(Strip, 1, 2);
+        grid.add(new Label("Please choose a folder for the logs:"), 0, 3);
+        grid.add(LogBtn, 1, 3);
+        grid.setGridLinesVisible(false);
 
-        Node confirmButton = dialog.getDialogPane().lookupButton(confirmButtonType);
+        this.confirmButton =  dialog.getDialogPane().lookupButton(confirmButtonType);
         confirmButton.setDisable(true);
 
 // Do some validation (using the Java 8 lambda syntax).
-        username.textProperty().addListener((observable, oldValue, newValue) -> {
+        LedStrText.textProperty().addListener((observable, oldValue, newValue) -> {
             //System.out.println("Text box change observed.");
             confirmButton.setDisable(newValue.trim().isEmpty());
-            boolean b = checkData(username.getText());
-            confirmButton.setDisable(!b);
-            //System.out.println(b);
+            checkData();
         });
         dialog.getDialogPane().setContent(grid);
 
 // Request focus on the username field by default.
-        Platform.runLater(() -> username.requestFocus());
-
+        Platform.runLater(() -> LedStrText.requestFocus());
+        Kaizen_85.newEvent("Initialization window created, showing.");
         dialog.showAndWait();
     }
+    
+    private Node confirmButton;
 
-    private boolean checkData(String s) {    // makes sure the data entered is formattable
+    /**
+     * Ensures the user enters certain data before they can continue
+     */
+    private void checkData() {    // makes sure the data entered is formattable
+        Kaizen_85.newEvent("Data check for init dialog, path folder is " + this.logFolder + " and the current LED text field entry is " + LedStrText.getText());
+        boolean intParsable = false;
+
         try {
-            int i = Integer.parseInt(s);
-            return true;
+            int i = Integer.parseInt(LedStrText.getText());
+            intParsable = true;
         } catch (NumberFormatException e) {
             //System.err.println("Number entered on init panel is invalid, please try again.");
-            return false;
         }
 
-    }
-    
-    protected Settings SaveSettings(){
-        Settings newSettings = new Settings(this.isRGBW,this.isMatrix,this.patternFolder,this.stripLength,this.stripWidnth);
-        return newSettings;
+        if (!this.logFolder.isEmpty() && intParsable) {
+            confirmButton.setDisable(false);
+        } else {
+            confirmButton.setDisable(true);
+        }
     }
 
+    protected Settings SaveSettings() {
+        Settings newSettings = new Settings(this.isRGBW, this.isMatrix, this.patternFolder, this.stripLength, this.stripWidth);
+        Kaizen_85.setLogPath(this.logFolder);
+        return newSettings;
+    }
+    
 }

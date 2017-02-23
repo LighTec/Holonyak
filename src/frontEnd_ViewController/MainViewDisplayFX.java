@@ -9,6 +9,8 @@
  */
 package frontEnd_ViewController;
 
+import app_Controller.Kaizen_85;
+import backEnd_Models.GeneralSettingsException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -21,7 +23,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -34,7 +35,7 @@ import javafx.stage.Stage;
 public class MainViewDisplayFX extends Application {
 
     public static void init(String[] args) {
-        System.out.println("GUI Initializing");
+        //System.out.println("GUI Initializing");
         launch(args);
 
     }
@@ -42,7 +43,7 @@ public class MainViewDisplayFX extends Application {
     ModelsAndViewsControllerFX MVControl;
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws GeneralSettingsException {
         this.MVControl = new ModelsAndViewsControllerFX();
         
        // System.out.println("Initializing components....");
@@ -67,9 +68,11 @@ public class MainViewDisplayFX extends Application {
         
         Settings settings = InfoGetter.SaveSettings();
         
+        this.MVControl.finalizeInit(settings);
+        
         primaryStage.setScene(scene);
       //  System.out.println("Showing the primary stage.");
-
+      Kaizen_85.newEvent("Init complete, showing main stage.");
         primaryStage.show();
     }
 
@@ -103,7 +106,7 @@ public class MainViewDisplayFX extends Application {
 
         Text scenetitle = new Text("Welcome");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        scenetitle.setFill(Color.SALMON);
+        //scenetitle.setFill(Color.SALMON);
 
         Text LedConfirm = new Text("[pixel index]![red colour]![green colour]![blue colour]");
         LedConfirm.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
