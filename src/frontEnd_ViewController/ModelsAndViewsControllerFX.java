@@ -10,7 +10,7 @@
 package frontEnd_ViewController;
 
 import app_Controller.Kaizen_85;
-import backEnd_Models.BackEndManager;
+import backEnd_Models.AdvancedPatterns;
 import backEnd_Models.GeneralSettingsException;
 
 /**
@@ -24,7 +24,7 @@ public class ModelsAndViewsControllerFX{
         // this.CalcFibBtn.setOnAction(new CalcFib());
        // System.out.println("View controller object created");
     }
-    private BackEndManager theBackEnd;
+    private AdvancedPatterns theBackEnd;
     /*
      *
      * ModelsAndViewsController needs to have an instance variable to reference
@@ -68,7 +68,7 @@ public class ModelsAndViewsControllerFX{
 
     }
     protected void finalizeInit(Settings s) throws GeneralSettingsException{
-        this.theBackEnd = new BackEndManager(s);
+        this.theBackEnd = new AdvancedPatterns(s);
         Kaizen_85.newEvent("Handing off the Settings class to the BandEndManager.");
     }
 }

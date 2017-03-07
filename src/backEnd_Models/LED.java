@@ -7,7 +7,7 @@ package backEnd_Models;
  *
  * @author Kell
  */
-public class LED {
+public abstract class LED {
     /**
      * This class serves an a singular object for registering values for each
      * LED controlled. Holds its position and RBG values. Meant to be put into
@@ -41,6 +41,12 @@ public class LED {
         this.pwmNumber = addressX;
     }
     
+    /**
+     * Sets the red, green, and blue values. Obviously.
+     * @param red
+     * @param green
+     * @param blue
+     */
     public void setRGB(int red, int green, int blue){ //sets the RGB color
         if(red > 255){
             System.err.println("red value exceeded 255. Original value: " + red);
@@ -60,6 +66,23 @@ public class LED {
     }
     
     /**
+     *  Prints out the red value, then the (red + green + blue) / 3 value, then the 
+     * 256 - ((red + green +blue) / 3) value, then prints out the lesser of either the green or 
+     * red values (the maximum amount of yellow).
+     */
+    public void printRWBY(){
+        int white = (this.red + this.blue + this.green) / 3;
+        int black = 256 - white;
+        int yellow;
+        if(this.red >= this.green){
+            yellow = this.green;
+        }else{
+            yellow = this.red;
+        }
+        System.out.println("An easter egg!\nRed value: " + this.red + "\nWhite value: " + white + "\nBlack value: " + black + "\nYellow value:" + yellow);
+    }
+    
+    /*
      * 
      * return statements for RGB and positioning logic
      */

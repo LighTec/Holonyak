@@ -3,6 +3,8 @@
  */
 package backEnd_Models;
 
+import java.awt.Color;
+
 /**
  *Talks to whatever is controlling the LEDs. uses the JArduino library to do so.
  * 
@@ -14,6 +16,34 @@ package backEnd_Models;
  * 
  * @author Kell
  */
-public class SerialComms {
-    //TODO code serial communication logic here
+public abstract class SerialComms {
+    
+    private int port;   // Arduiino pin that the light strip/matrix is on.
+    
+    public SerialComms(int port){
+        
+    }
+    
+    /**
+     *  Tells the Arduino to set pixel x to Color c. Uses the syntax of: 3 numbers for pixel num, 3 numbers
+     * for Red, 3 numbers for Blue, 3 numbers for Green. For example: 001000100200 will result on a cyan-like
+     * color.
+     * @param pixel
+     * @param c
+     */
+    protected void SendRGB(int pixel, Color c){
+        
+    }
+    
+    /**
+     *  Sends a halt command to the Arduino, which is just a custom String of numbers telling 
+     * it to zero all LED lights and not accept any further commands.
+     */
+    protected void SendHalt(){
+        
+    }
+    
+    public int getPort(){
+        return this.port;
+    }
 }

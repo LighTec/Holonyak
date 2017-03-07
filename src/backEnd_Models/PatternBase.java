@@ -13,32 +13,27 @@ import app_Controller.Kaizen_85;
 import frontEnd_ViewController.Settings;
 
 /**
- * This is meant to run on a thread created from ModelsAndViewsControllerFX, and
- * manages both the SerialComms class, and the PixelControl class. Acts as the
- * glue between serial communication, pattern management, and the frontend GUI.
  *
  * @author kell-gigabyte
  */
-public class BackEndManager {
+public class PatternBase {
 
     private final Settings settings;
     private PixelControl pixelControl;
     private SerialComms serialComms;
 
-    /**
-     *  Creates a backendmanager, which creates serial comm and pixelcontrol objects. Acts as a
-     * bridge between the frontend, and these two backend classes.
-     * @param s
-     * @throws GeneralSettingsException
-     */
-    public BackEndManager(Settings s) throws GeneralSettingsException {
+    public PatternBase(Settings s) throws GeneralSettingsException {
         this.settings = s;
         initialize();
 
     }
 
+    /**
+     * Initializes the patternBase class. Creates a pixelControl object and a SerialComms object.
+     * @throws GeneralSettingsException 
+     */
     private void initialize() throws GeneralSettingsException {
-        Kaizen_85.newEvent("BackEndManager initialized.");
+        Kaizen_85.newEvent("PatternBase, and all classes it get extended in initialized.");
         if (!this.settings.getIsMatrix()) {        // if it is a strip
             this.pixelControl = new PixelControl(this.settings.getStripLength(), this.settings.getRGBW());
         } else if (this.settings.getIsMatrix()) {  // if it is a matrix
@@ -49,9 +44,13 @@ public class BackEndManager {
             throw gse;
         }
     }
-
-    protected boolean sendCmd(String s) {
+    
+     /**
+     * The first step of a pattern. Parses the String to choose which methods to operate with.
+     * @param s
+     * @return true if success
+     */
+    private boolean parsePattern(String s) {
         return false;
     }
-
 }

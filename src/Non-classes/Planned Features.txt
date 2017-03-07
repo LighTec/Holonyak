@@ -27,3 +27,4 @@
 - Use a picture of the LED strip to make the demo for the pattern on the GUI look nice
 - Music visualization
 - Date/time detection
+- RGBW support

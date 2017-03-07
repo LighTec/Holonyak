@@ -9,7 +9,7 @@ import java.util.Random;
  *
  * @author Kell
  */
-public class Pixel extends LED {
+public abstract class Pixel extends LED {
 
     /**
      * This class is meant to extend the LED object, providing addition utility

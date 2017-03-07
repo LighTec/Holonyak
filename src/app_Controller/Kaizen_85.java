@@ -9,7 +9,6 @@
  */
 package app_Controller;
 
-import backEnd_Models.PixelValueException;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;

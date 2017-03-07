@@ -27,6 +27,7 @@ public class PixelControl {
     
     public PixelControl(int length, boolean whitePixel){
         Kaizen_85.newEvent("PixelControl created, using a strip");
+        this.LEDmatrix = new Pixel[length];
     }
     
     public PixelControl(int length, int width, boolean whitePixel){
