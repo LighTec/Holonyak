@@ -35,9 +35,9 @@ public class PatternBase {
     private void initialize() throws GeneralSettingsException {
         Kaizen_85.newEvent("PatternBase, and all classes it get extended in initialized.");
         if (!this.settings.getIsMatrix()) {        // if it is a strip
-            this.pixelControl = new PixelControl(this.settings.getStripLength(), this.settings.getRGBW());
+            this.pixelControl = new PixelControl(this.settings.getStripLength());
         } else if (this.settings.getIsMatrix()) {  // if it is a matrix
-            this.pixelControl = new PixelControl(this.settings.getStripLength(), this.settings.getStripWidth(), this.settings.getRGBW());
+            this.pixelControl = new PixelControl(this.settings.getStripLength(), this.settings.getStripWidth());
         } else {
             GeneralSettingsException gse = new GeneralSettingsException("cannot tell if matrix or strip");
             Kaizen_85.panic();

@@ -25,12 +25,12 @@ public class PixelControl {
     
     String patternFolder;
     
-    public PixelControl(int length, boolean whitePixel){
+    public PixelControl(int length){
         Kaizen_85.newEvent("PixelControl created, using a strip");
         this.LEDmatrix = new Pixel[length];
     }
     
-    public PixelControl(int length, int width, boolean whitePixel){
+    public PixelControl(int length, int width){
         Kaizen_85.newEvent("PixelControl created, using a matrix");
     }
     

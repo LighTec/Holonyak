@@ -13,23 +13,13 @@ package backEnd_Models;
  *
  * @author kell-gigabyte
  */
-public class PatternParseException extends Exception {
+public class UnsupportedPatternException extends Exception {
 
-    /**
-     * Creates a new instance of <code>PatternParseException</code> without
-     * detail message.
-     */
-    public PatternParseException() {
-        super("Failed to parse pattern. Try another.");
+    public UnsupportedPatternException() {
+        super("Unsupported Pattern. The code for this pattern either does not exist (yet), or is broken.");
     }
 
-    /**
-     * Constructs an instance of <code>PatternParseException</code> with the
-     * specified detail message.
-     *
-     * @param msg the detail message.
-     */
-    public PatternParseException(String msg) {
-        super("failed to parse pattern, " + msg);
+    public UnsupportedPatternException(String msg) {
+        super("Unsupported Pattern. The code for this pattern either does not exist (yet), or is broken. Specific message: " + msg);
     }
 }

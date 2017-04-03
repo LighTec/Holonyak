@@ -20,7 +20,7 @@ import java.awt.Color;
  *
  * @author kell-gigabyte
  */
-public class AdvancedPatterns extends SimplePatterns{
+public class AdvancedPatterns extends SimplePatterns {
 
     public AdvancedPatterns(Settings s) throws GeneralSettingsException {
         super(s);
@@ -32,8 +32,8 @@ public class AdvancedPatterns extends SimplePatterns{
      * @param percentage
      * @param pixel 
      */
-    private void smartColorChange(int percentage, int pixel) {
-
+    private void smartColorChange(int percentage, int pixel) throws UnsupportedPatternException {
+throw new UnsupportedPatternException("Not yet coded in java.");
     }
 
 
@@ -49,8 +49,8 @@ public class AdvancedPatterns extends SimplePatterns{
      * @param speed
      * @param fadeAmount 
      */
-    private void wave(Color c1, Color c2, Color c3, Color c4, Color c5, int speed, int fadeAmount) {
-
+    private void wave(Color c1, Color c2, Color c3, Color c4, Color c5, int speed, int fadeAmount) throws UnsupportedPatternException {
+        throw new UnsupportedPatternException("Unimplemented in Arduino.");
     }
 
     /**
@@ -64,8 +64,8 @@ public class AdvancedPatterns extends SimplePatterns{
      * @param beginPixel
      * @param reverse
      */
-    private void flash(Color c1, int speed, int flashWidth, boolean ripple, int beginPixel, boolean reverse) {
-
+    private void flash(Color c1, int speed, int flashWidth, boolean ripple, int beginPixel, boolean reverse) throws UnsupportedPatternException {
+throw new UnsupportedPatternException("Unimplemented in Arduino.");
     }
 
 
@@ -75,7 +75,8 @@ public class AdvancedPatterns extends SimplePatterns{
      * @param c2
      * @param speed 
      */
-    private void breathing(Color c1, Color c2, int speed) {
+    private void breathing(Color c1, Color c2, int speed) throws UnsupportedPatternException {
+        throw new UnsupportedPatternException("Unimplemented in Arduino.");
 
     }
 
@@ -83,15 +84,15 @@ public class AdvancedPatterns extends SimplePatterns{
      * sets all pixels to a single color, slowly shifting between two Random Colors at a rate of x.
      * @param speed 
      */
-    private void randomBreathing(int speed) {
-
+    private void randomBreathing(int speed) throws UnsupportedPatternException {
+        throw new UnsupportedPatternException("Unimplemented in Arduino.");
     }
 
     /**
      * Goes through the entire RGB spectrum x fast. Sets all pixels to the same Color.
      * @param speed 
      */
-    private void spectrum(int speed) {
+    private void rainbow(int speed) {
 
     }
 

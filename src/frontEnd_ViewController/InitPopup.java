@@ -10,6 +10,8 @@
 package frontEnd_ViewController;
 
 import app_Controller.Kaizen_85;
+import arduinocomms2.PortDropdownMenuFX;
+import com.fazecast.jSerialComm.SerialPort;
 import java.io.File;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -43,7 +45,6 @@ import javafx.stage.DirectoryChooser;
 public class InitPopup extends MainViewDisplayFX {
 
     boolean isMatrix;
-    boolean isRGBW;               //if the LED strip supports an extra addressable white LED
 
     boolean isComplete = false;
 
@@ -52,6 +53,8 @@ public class InitPopup extends MainViewDisplayFX {
 
     int stripLength;
     int stripWidth;
+    
+    SerialPort currentPort;
 
     public InitPopup() {
 
@@ -64,16 +67,20 @@ public class InitPopup extends MainViewDisplayFX {
     protected boolean isComplete() {
         return this.isComplete;
     }
+
+    private void setLogFolder(String s) {
+        this.logFolder = s;
+    }
     
-    private void setLogFolder(String s){
-            this.logFolder = s;
-        }
-    
+       private void changePort(SerialPort port){
+        this.currentPort = port;
+    }
+
     private TextField LedStrText = new TextField();
 
     private void createStage() {         // creates the GUI for the popup
         Dialog dialog = new Dialog<>();
-        dialog.setTitle("Just need a little bit of info");
+        dialog.setTitle("Hello!");
         dialog.setHeaderText("Hello, I'd just like you to let me know about your LED strip.");
 
         ButtonType confirmButtonType = new ButtonType("Enter", ButtonData.APPLY);
@@ -81,66 +88,44 @@ public class InitPopup extends MainViewDisplayFX {
 
         String StripStr = "In a Strip";
         String MatrixStr = "In a Matrix";
-        String y = "Yes";
-        String n = "No";
         String logFolderStr = "Click here to choose a log location.";
-        
-        ToggleButton RGBW = new ToggleButton(n);
-        ToggleGroup aRGBW = new ToggleGroup();
-        RGBW.setToggleGroup(aRGBW);
+
         ToggleButton Strip = new ToggleButton(StripStr);
         ToggleGroup aStrip = new ToggleGroup();
         Strip.setToggleGroup(aStrip);
 
+            PortDropdownMenuFX portChooser = new PortDropdownMenuFX();
+            portChooser.refreshMenu();
+
         Button LogBtn = new Button(logFolderStr);
-
-        LogBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                String logFolder;
-                DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-        File selectedFolder = directoryChooser.showDialog(dialog.getOwner());
-        if (selectedFolder == null) {
-        }else{
-
-          setLogFolder(selectedFolder.getAbsolutePath());
-          //System.out.println(selectedFolder.getAbsolutePath());
-          checkData();
-        }
-            }
-            
+        
+        portChooser.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends SerialPort> observable, SerialPort oldvalue, SerialPort newvalue) -> {
+            changePort(newvalue);
+            checkData();
+            //System.out.println(newvalue.getSystemPortName());
         });
-        
-        
-        
-        aStrip.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            @Override
-            public void changed(ObservableValue<? extends Toggle> ov,
-                    Toggle toggle, Toggle new_toggle) {
-                if (new_toggle == null) {
-                    Strip.setText(StripStr);
-                    isMatrix = false;
-                } else {
-                    Strip.setText(MatrixStr);
-                    isMatrix = true;
-                }
 
+        LogBtn.setOnAction((ActionEvent event) -> {
+            String logFolder1;
+            DirectoryChooser directoryChooser = new DirectoryChooser();
+            directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+            File selectedFolder = directoryChooser.showDialog(dialog.getOwner());
+            if (selectedFolder == null) {
+            } else {
+                
+                setLogFolder(selectedFolder.getAbsolutePath());
+                //System.out.println(selectedFolder.getAbsolutePath());
+                checkData();
             }
         });
 
-        aRGBW.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-            @Override
-            public void changed(ObservableValue<? extends Toggle> ov,
-                    Toggle toggle, Toggle new_toggle) {
-                if (new_toggle == null) {
-                    RGBW.setText(n);
-                    isRGBW = false;
-                } else {
-                    RGBW.setText(y);
-                    isRGBW = true;
-                }
-
+        aStrip.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> ov, Toggle toggle, Toggle new_toggle) -> {
+            if (new_toggle == null) {
+                Strip.setText(StripStr);
+                isMatrix = false;
+            } else {
+                Strip.setText(MatrixStr);
+                isMatrix = true;
             }
         });
 
@@ -149,20 +134,19 @@ public class InitPopup extends MainViewDisplayFX {
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
 
-        
         LedStrText.setPromptText("Enter number here");
 
         grid.add(new Label("Number of LED's total:"), 0, 0);
         grid.add(LedStrText, 1, 0);
-        grid.add(new Label("Does it have an addressable white pixel?"), 0, 1);
-        grid.add(RGBW, 1, 1);
+        grid.add(new Label("Please pick the port the Arduino is on (usually ttyACM0, or COM1)"), 0, 1);
+        grid.add(portChooser, 1, 1);
         grid.add(new Label("Are your LED's in an matrix, or a strip?"), 0, 2);
         grid.add(Strip, 1, 2);
         grid.add(new Label("Please choose a folder for the logs:"), 0, 3);
         grid.add(LogBtn, 1, 3);
         grid.setGridLinesVisible(false);
 
-        this.confirmButton =  dialog.getDialogPane().lookupButton(confirmButtonType);
+        this.confirmButton = dialog.getDialogPane().lookupButton(confirmButtonType);
         confirmButton.setDisable(true);
 
 // Do some validation (using the Java 8 lambda syntax).
@@ -178,7 +162,7 @@ public class InitPopup extends MainViewDisplayFX {
         Kaizen_85.newEvent("Initialization window created, showing.");
         dialog.showAndWait();
     }
-    
+
     private Node confirmButton;
 
     /**
@@ -195,17 +179,25 @@ public class InitPopup extends MainViewDisplayFX {
             //System.err.println("Number entered on init panel is invalid, please try again.");
         }
 
-        if (!this.logFolder.isEmpty() && intParsable) {
+        if (intParsable && this.currentPort != null) {
             confirmButton.setDisable(false);
         } else {
             confirmButton.setDisable(true);
         }
+        /*
+        if (!this.logFolder.isEmpty() && intParsable) {             // USE THIS VERSION FOR FINAL RELEASE
+            confirmButton.setDisable(false);
+        } else {
+            confirmButton.setDisable(true);
+        }
+         */
     }
 
     protected Settings SaveSettings() {
-        Settings newSettings = new Settings(this.isRGBW, this.isMatrix, this.patternFolder, this.stripLength, this.stripWidth);
+        Settings newSettings = new Settings(this.isMatrix, this.patternFolder, this.stripLength, this.stripWidth, this.currentPort);
+        //System.out.println(this.currentPort.getSystemPortName());
         Kaizen_85.setLogPath(this.logFolder);
         return newSettings;
     }
-    
+
 }

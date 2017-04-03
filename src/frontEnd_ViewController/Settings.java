@@ -9,28 +9,28 @@
  */
 package frontEnd_ViewController;
 
+import com.fazecast.jSerialComm.SerialPort;
+
 /**
  *
  * @author kell-gigabyte
  */
 public class Settings {
     
-    private boolean RGBW;
+    private SerialPort port;
     private boolean isMatrix;
     private String patternFolder;
     private int stripLength;
     private int stripWidth;
     
-    public Settings(boolean RGBW, boolean isMatrix, String patternFolder, int stripLength, int stripWidth){
-        this.RGBW = RGBW;
+    
+    public Settings(boolean isMatrix, String patternFolder, int stripLength, int stripWidth, SerialPort serialport){
         this.isMatrix = isMatrix;
         this.patternFolder = patternFolder;
         this.stripLength = stripLength;
         this.stripWidth = stripWidth;
-    }
-    
-    public boolean getRGBW(){
-        return this.RGBW;
+        this.port = serialport;
+        System.out.println(this.port);
     }
     
     public boolean getIsMatrix(){
@@ -47,5 +47,9 @@ public class Settings {
     
     public int getStripWidth(){
         return this.stripWidth;
+    }
+    
+    public SerialPort getSerialPort(){
+        return this.port;
     }
 }
