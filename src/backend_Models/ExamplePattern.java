@@ -15,19 +15,16 @@ import frontend_ViewController.Settings;
  *
  * @author kell-gigabyte
  */
-public abstract class Pattern {
+public class ExamplePattern extends AutoPattern {
 
-    protected final Settings settings;
-    protected static SerialComms serialcomms;
+    public ExamplePattern(Settings set, SerialComms serial) {
+        super(set, serial);
+    }
     
-    public Pattern(Settings set, SerialComms serial){
-        this.settings = set;
-        serialcomms = serial;
+    @Override
+    public void startPattern() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         // something like make a char array of the command char plus the three colors one after another in char form
     }
-
-    public void startPattern(){
-         throw new UnsupportedOperationException("startPattern method has not been overridden!");
-    }
-
-    //public void startPattern(DemoDisplay d);           // will implement a demoDisplay for the GUI later hopefully.
+    
 }

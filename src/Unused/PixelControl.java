@@ -7,10 +7,12 @@
  * can be found as a .ino file recognizable by the arduino IDE, within the zip package of this
  * program.
  */
-package backend_Models;
+package Unused;
 
 import app_Controller.Kaizen_85;
 import backend_Models.Pixel;
+import backend_Models.Pixel;
+import backend_Models.SerialComms;
 import backend_Models.SerialComms;
 import frontend_ViewController.Settings;
 import java.awt.Color;

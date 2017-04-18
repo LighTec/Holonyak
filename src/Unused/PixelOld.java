@@ -1,8 +1,10 @@
 /*
  * Created By Kell Larson for the Computer Science AP program during school year 2016/2017. Please ask before copying code.
  */
-package backend_Models;
+package Unused;
 
+import backend_Models.Pixel;
+import backend_Models.PixelValueException;
 import java.util.Random;
 
 /*

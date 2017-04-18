@@ -6,3 +6,4 @@ V0.07: Log directory chooser, logger, generalsettingsexception, small changes to
 V0.08: ??? (something to do with refactoring the backend I believe)
 V0.09: Improved initpopup to allow choosing a serial port, backend becomes more refined for the chosen form of serial communication (calling commands that reside on the arduino)
 V0.095: InitPopup can now save/load settings, backend expanded. Refactored packages for better naming, Pattern classes collapsed from 3 to 2, no more LED and Pixel Classes, only LED renamed as Pixel.
+V0.10: Massive reoganization, throwing out multiple classes in favor of a better structure that follows SRP and open-closed principles.

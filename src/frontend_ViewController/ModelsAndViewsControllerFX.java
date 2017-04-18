@@ -10,7 +10,7 @@
 package frontend_ViewController;
 
 import app_Controller.Kaizen_85;
-import backend_Models.AutoPattern;
+import Unused.AutoPattern;
 import backend_Models.GeneralSettingsException;
 
 /**

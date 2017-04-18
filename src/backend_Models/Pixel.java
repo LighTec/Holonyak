@@ -78,7 +78,8 @@ public class Pixel {
     /**
      * Prints out the red value, then the (red + green + blue) / 3 value, then
      * the 256 - ((red + green +blue) / 3) value, then prints out the lesser of
-     * either the green or red values (the maximum amount of yellow).
+     * either the green or red values (the maximum amount of yellow). Got bored after watching
+     * RWBY season 4 episode 3-ish.
      */
     public void printRWBY() {
         int white = (this.red + this.blue + this.green) / 3;

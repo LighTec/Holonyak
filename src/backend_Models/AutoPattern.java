@@ -13,92 +13,39 @@ import frontend_ViewController.Settings;
 import java.awt.Color;
 
 /**
- * This is meant to run on a thread created from ModelsAndViewsControllerFX, and
- * manages both the SerialComms class, and the PixelControl class. Acts as the
- * glue between serial communication, pattern management, and the frontend GUI.
- * Also talks to the pattern class.
+ * Used if there's code within the Arduino for the pattern implementing the
+ * pattern super-interface. Booleans shoudl return false if the set___ failed,
+ * or because the pattern does not require it.
  *
  * @author kell-gigabyte
  */
-public class AutoPattern extends Pattern {
+public abstract class AutoPattern extends Pattern {
 
-    public AutoPattern(Settings s) throws GeneralSettingsException {
-        super(s);
+    protected int red;
+    protected int green;
+    protected int blue;
+    protected int delay;
 
+    public AutoPattern(Settings set, SerialComms serial) {
+        super(set, serial);
     }
 
-    /**
-     * changes pixel x RGB values to x% to what they were ((color / 100) *
-     * percentage).
-     *
-     * @param percentage
-     * @param pixel
-     */
-    public void smartColorChange(int percentage, int pixel) {
+    public void setColor(Color c) {
+        this.red = c.getRed();
+        this.green = c.getGreen();
+        this.blue = c.getBlue();
     }
 
-    /**
-     * Creates a wave of colors. Use c1-c5 for colors of the wave, null if no
-     * color, speed is the speed, and fadeAmoutn determines how much each color
-     * mixes in between one another. Each non-null color is equally distant from
-     * its neighbors.
-     *
-     * @param c1
-     * @param c2
-     * @param c3
-     * @param c4
-     * @param c5
-     * @param speed
-     * @param fadeAmount
-     */
-    public void wave(Color c1, Color c2, Color c3, Color c4, Color c5, int speed, int fadeAmount) {
+    public boolean setColor(int r, int g, int b) {
+        if(r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) // if any color values exceed 255, or less than 0
+            return false;
+        this.red = r;
+        this.green = g;
+        this.blue = b;
+        return true;
     }
 
-    /**
-     * Causes Color c1 to start a moving wave of Color x wide and y fast going
-     * down the Strip. ripple decides if the wave goes down the strip in both
-     * directions, and if that is false, then the boolean reverse decides which
-     * way the flash will go.
-     *
-     * @param c1
-     * @param speed
-     * @param flashWidth
-     * @param ripple
-     * @param beginPixel
-     * @param reverse
-     */
-    public void flash(Color c1, int speed, int flashWidth, boolean ripple, int beginPixel, boolean reverse) {
+    public void setDelay(int i) {
+        this.delay = i;
     }
-
-    /**
-     * sets all pixels to a single color, slowly shifting between Colors c1 and
-     * c2 at a rate of x.
-     *
-     * @param c1
-     * @param c2
-     * @param speed
-     */
-    public void breathing(Color c1, Color c2, int speed) {
-
-    }
-
-    /**
-     * sets all pixels to a single color, slowly shifting between two Random
-     * Colors at a rate of x.
-     *
-     * @param speed
-     */
-    public void randomBreathing(int speed) {
-    }
-
-    /**
-     * Goes through the entire RGB spectrum x fast. Sets all pixels to the same
-     * Color.
-     *
-     * @param speed
-     */
-    public void rainbow(int speed) {
-
-    }
-
 }
