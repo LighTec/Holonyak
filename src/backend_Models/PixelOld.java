@@ -1,19 +1,37 @@
 /*
  * Created By Kell Larson for the Computer Science AP program during school year 2016/2017. Please ask before copying code.
  */
-package backEnd_Models;
+package backend_Models;
 
 import java.util.Random;
+
+/*
+This class is no longer used because of the slow serial communication between arduino and computer. Using
+1 byte per color, e.g. 0-255 for red, green, and blue, as well as 2 bytes to address the pixel, results in a max 
+baud rate of ~15500. This results in a ~5 Hz refresh rate for 64 LEDs in a strip, growing slower as the LED strip
+gets longer. Even using just 3 bytes, the colour values, and assuming it's pixel after pixel, it did not increase the
+parse speed of the arduino.
+
+So, a refresh rate of 5 Hz is what could be called "dogsh**", so I changed the pattern creation radically. Instead of
+sending 3-5 bytes per pixel, I coded the patterns into the arduino. This meant I had to send 1 string
+with a char, then up to 40 bits of arguments in the form of colors and delays, that the ardunio parsed. Then it ran
+the pattern 5 times, then checked if the serial buffer had any new commands. This will hopefully lead to a
+refresh rate similar to one without serial comms, which was so fast a red to blue to green loop looked white
+to the eyes.
+
+Anyway, this all makes this class useless. Left it here if anyones wants it.
+*/
+
 
 /**
  *
  * @author Kell
  */
-public abstract class Pixel extends LED {
+public abstract class PixelOld extends Pixel {
 
     /**
-     * This class is meant to extend the LED object, providing addition utility
-     * to it. Should be able to do simple math equations for setting RGB values,
+     * This class is meant to extend the Pixel object, providing addition utility
+ to it. Should be able to do simple math equations for setting RGB values,
      * like in the wave if x = 5 and y = 20, then set the RGB value to 1/3 of y
      * + 2/3 of x.
      *
@@ -22,12 +40,14 @@ public abstract class Pixel extends LED {
      */
     private Random rng = new Random();
 
-    public Pixel(int addressX, int addressY, int addressPwm) {
+    public PixelOld(int addressX, int addressY, int addressPwm) {
         super(addressX, addressY, addressPwm);
+        throw new UnsupportedOperationException("This class is depreciated, use at your own risk.");
     }
 
-    public Pixel(int addressX) {
+    public PixelOld(int addressX) {
         super(addressX);
+        throw new UnsupportedOperationException("This class is depreciated, use at your own risk.");
     }
 
     /**
@@ -41,7 +61,7 @@ public abstract class Pixel extends LED {
      * @nonfuctional
      * @experimental
      */
-    public void setAverageXRGB(Pixel point1, Pixel point2) {
+    public void setAverageXRGB(PixelOld point1, PixelOld point2) {
         int x1 = point1.getPosX();
         int x2 = point2.getPosX();
         int xMe = this.getPosX();
@@ -94,12 +114,12 @@ public abstract class Pixel extends LED {
     }
 
     /**
-     * Sets the average colour of two pixels onto this Pixel
+     * Sets the average colour of two pixels onto this PixelOld
      *
      * @param point1
      * @param point2
      */
-    public void setAverageDumbRGB(Pixel point1, Pixel point2) {
+    public void setAverageDumbRGB(PixelOld point1, PixelOld point2) {
         this.setRGB(((point1.getRed() + point2.getRed()) / 2), ((point1.getGreen() + point2.getGreen()) / 2), ((point1.getBlue() + point2.getBlue()) / 2));
     }
 }

@@ -1,17 +1,27 @@
 NOTE: INDIVIDUAL LED'S ARE POINTS
 
+DONE:
 
-FOR LED STRIPS:
+- All pixels one color
+
+- Rainbow cycle, all pixels one color at a time
+
+- A complete rainbow on the strip, moving
+
+- Theater chase, 1 on 2 off with the on pixels moving down the line
+
+- Rainbow cycle and theater chase combined
+
+- Manual pixel change, singular
+
+- Manual pixel change, all
+
+TODO:
 
 Waving pattern: x amount of points on the strip move along at y speed, having i 
 and j colours between them, and have the colour between the points a 
 mathematical average between them, with one colour more visible as it gets 
 closer to the point.
-
-One static colour.
-
-Cycling all points with a spectrum cycle, moving 1 RGB value at a time. All 
-points will be the same colour.
 
 Math.random at x interval to each LED, either a hard cut to it or a cycle.
 
@@ -21,8 +31,6 @@ Key presses cause a flash going x quick with a width of y.
 
 Device battery life?
 
-
-FOR MULTI-ROW DISPLAYS
 
 Text scrolling at x speed.
 

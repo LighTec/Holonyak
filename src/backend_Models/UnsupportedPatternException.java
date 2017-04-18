@@ -7,20 +7,19 @@
  * can be found as a .ino file recognizable by the arduino IDE, within the zip package of this
  * program.
  */
-package backEnd_Models;
+package backend_Models;
 
 /**
  *
  * @author kell-gigabyte
  */
-public class PixelValueException extends RuntimeException{
-    public PixelValueException(){
-        
+public class UnsupportedPatternException extends Exception {
+
+    public UnsupportedPatternException() {
+        super("Unsupported Pattern. The code for this pattern either does not exist (yet), or is broken.");
     }
-    public PixelValueException(String s){
-        super(s);
-    }
-    public PixelValueException(String s, int i){
-        super(s + "   RBG value given: " + i);
+
+    public UnsupportedPatternException(String msg) {
+        super("Unsupported Pattern. The code for this pattern either does not exist (yet), or is broken. Specific message: " + msg);
     }
 }

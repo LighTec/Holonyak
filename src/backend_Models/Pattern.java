@@ -7,28 +7,43 @@
  * can be found as a .ino file recognizable by the arduino IDE, within the zip package of this
  * program.
  */
-package backEnd_Models;
+package backend_Models;
 
-import frontEnd_ViewController.Settings;
+import app_Controller.Kaizen_85;
+import frontend_ViewController.Settings;
 import java.awt.Color;
 
 /**
  *
  * @author kell-gigabyte
  */
-public class SimplePatterns extends PatternBase{
-    
-    public SimplePatterns(Settings s) throws GeneralSettingsException {
-        super(s);
+public class Pattern {
+
+    public final Settings settings;
+    public PixelControl pixelControl;
+    public SerialComms serialComms; 
+
+    public Pattern(Settings s) throws GeneralSettingsException {
+        this.settings = s;
+        initialize();
+
     }
-    
-      /**
+
+    /**
+     * Initializes the patternBase class. Creates a pixelControl object and a SerialComms object.
+     * @throws GeneralSettingsException 
+     */
+    public void initialize() throws GeneralSettingsException {
+        Kaizen_85.newEvent("PatternBase, and all classes it get extended in initialized.");
+            this.pixelControl = new PixelControl(this.settings);
+    }
+     /**
      * Subtracts x amount of color (red, blue, green, yellow, purple, orange) from pixel y.
      * @param colorName
      * @param amount
      * @param pixel 
      */
-    private void subtract(String colorName, int amount, int pixel) {
+    public void subtract(String colorName, int amount, int pixel) {
 
     }
 
@@ -38,7 +53,7 @@ public class SimplePatterns extends PatternBase{
      * @param amount
      * @param pixel 
      */
-    private void add(String colorName, int amount, int pixel) {
+    public void add(String colorName, int amount, int pixel) {
 
     }
 
@@ -47,7 +62,7 @@ public class SimplePatterns extends PatternBase{
      * @param amount
      * @param pixel 
      */
-    private void lighten(int amount, int pixel) {
+    public void lighten(int amount, int pixel) {
 
     }
 
@@ -56,7 +71,7 @@ public class SimplePatterns extends PatternBase{
      * @param amount
      * @param pixel 
      */
-    private void darken(int amount, int pixel) {
+    public void darken(int amount, int pixel) {
 
     }
     
@@ -65,7 +80,7 @@ public class SimplePatterns extends PatternBase{
  * shifts all pixel values "Left" x amount of times, e.g. allowing a wave to form.
  * @param times 
  */
-    private void shiftLeft(int times) {
+    public void shiftLeft(int times) {
 
     }
 
@@ -73,7 +88,7 @@ public class SimplePatterns extends PatternBase{
      * shifts all pixel values "Right" x amount of times, e.g. allowing a wave to form.
      * @param times 
      */
-    private void shiftRight(int times) {
+    public void shiftRight(int times) {
 
     }
 
@@ -81,14 +96,14 @@ public class SimplePatterns extends PatternBase{
      * sets pixel x to become a random Color.
      * @param pixel 
      */
-    private void randomColor(int pixel) {
+    public void randomColor(int pixel) {
 
     }
 
     /**
      * makes all pixel RGB values 0,0,0.
      */
-    private void clearColors() {
+    public void clearColors() {
 
     }
     
@@ -97,7 +112,7 @@ public class SimplePatterns extends PatternBase{
      * @param c1
      * @param pixel 
      */
-    private void setColor(Color c1, int pixel) {
+    public void setColor(Color c1, int pixel) {
 
     }
 }

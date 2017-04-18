@@ -7,28 +7,29 @@
  * can be found as a .ino file recognizable by the arduino IDE, within the zip package of this
  * program.
  */
-package backEnd_Models;
+package backend_Models;
 
 /**
  *
  * @author kell-gigabyte
  */
-public class GeneralSettingsException extends Exception {
+public class PatternParseException extends Exception {
 
     /**
-     * Creates a new instance of <code>GeneralSettingsException</code> without
+     * Creates a new instance of <code>PatternParseException</code> without
      * detail message.
      */
-    public GeneralSettingsException() {
+    public PatternParseException() {
+        super("Pattern parse failed.");
     }
 
     /**
-     * Constructs an instance of <code>GeneralSettingsException</code> with the
+     * Constructs an instance of <code>PatternParseException</code> with the
      * specified detail message.
      *
      * @param msg the detail message.
      */
-    public GeneralSettingsException(String msg) {
-        super(msg);
+    public PatternParseException(String msg) {
+        super("Pattern parse failed, " + msg);
     }
 }

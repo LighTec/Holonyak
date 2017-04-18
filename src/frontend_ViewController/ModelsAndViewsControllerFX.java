@@ -7,11 +7,11 @@
  * can be found as a .ino file recognizable by the arduino IDE, within the zip package of this
  * program.
  */
-package frontEnd_ViewController;
+package frontend_ViewController;
 
 import app_Controller.Kaizen_85;
-import backEnd_Models.AdvancedPatterns;
-import backEnd_Models.GeneralSettingsException;
+import backend_Models.AutoPattern;
+import backend_Models.GeneralSettingsException;
 
 /**
  *
@@ -24,7 +24,7 @@ public class ModelsAndViewsControllerFX{
         // this.CalcFibBtn.setOnAction(new CalcFib());
        // System.out.println("View controller object created");
     }
-    private AdvancedPatterns theBackEnd;
+    private AutoPattern theBackEnd;
     /*
      *
      * ModelsAndViewsController needs to have an instance variable to reference
@@ -67,8 +67,20 @@ public class ModelsAndViewsControllerFX{
         }
 
     }
+    
+    private boolean isStarted = false;
+    protected boolean startStop(){
+        if(isStarted){
+            
+        }else{
+            
+        }
+        isStarted = !isStarted;
+        return this.isStarted;
+    }
+    
     protected void finalizeInit(Settings s) throws GeneralSettingsException{
-        this.theBackEnd = new AdvancedPatterns(s);
+        this.theBackEnd = new AutoPattern(s);
         Kaizen_85.newEvent("Handing off the Settings class to the BandEndManager.");
     }
 }

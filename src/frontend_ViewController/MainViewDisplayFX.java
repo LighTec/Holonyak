@@ -7,10 +7,10 @@
  * can be found as a .ino file recognizable by the arduino IDE, within the zip package of this
  * program.
  */
-package frontEnd_ViewController;
+package frontend_ViewController;
 
 import app_Controller.Kaizen_85;
-import backEnd_Models.GeneralSettingsException;
+import backend_Models.GeneralSettingsException;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -40,7 +40,8 @@ public class MainViewDisplayFX extends Application {
 
     }
     
-    ModelsAndViewsControllerFX MVControl;
+    private ModelsAndViewsControllerFX MVControl;
+    
 
     @Override
     public void start(Stage primaryStage) throws GeneralSettingsException {
@@ -48,7 +49,7 @@ public class MainViewDisplayFX extends Application {
         
        // System.out.println("Initializing components....");
 
-        primaryStage.setTitle("JavaFX Testground, Capstone V0.03");
+        primaryStage.setTitle("JavaFX Testground, Capstone V0.1 CommDev");
 
         BorderPane root = new BorderPane();
 
@@ -62,13 +63,15 @@ public class MainViewDisplayFX extends Application {
 
         Scene scene = new Scene(root);
       //  System.out.println("Main stage set, creating and showing init popup window.");
-        InitPopup InfoGetter = new InitPopup();
+      
+      
+        //InitPopup InfoGetter = new InitPopup();
         
-        InfoGetter.run();
+        //InfoGetter.run();                                                             // UNREM FOR TESTING SERIALCOMMS
         
-        Settings settings = InfoGetter.SaveSettings();
+        //Settings settings = InfoGetter.SaveSettings();
         
-        this.MVControl.finalizeInit(settings);
+        //this.MVControl.finalizeInit(settings);
         
         primaryStage.setScene(scene);
       //  System.out.println("Showing the primary stage.");
@@ -129,14 +132,18 @@ public class MainViewDisplayFX extends Application {
     private FlowPane addFlowPane() {
 
         FlowPane flow = new FlowPane();
-        flow.setPadding(new Insets(5, 0, 5, 0));
+        flow.setStyle("-fx-background-color: #B0C4DE;");
+        flow.setPadding(new Insets(5, 10, 5, 10));
         flow.setVgap(4);
         flow.setHgap(4);
         flow.setPrefWrapLength(170); // preferred width allows for two columns
-        //flow.setStyle("-fx-background-color:#00FF00;");
         Button HelloBtn = new Button();
         Button CalcFibBtn = new Button();
         Button SetLedBtn = new Button();
+        
+        Button RainbowBtn = new Button();
+        
+        RainbowBtn.setText("Rainbow");
 
         HelloBtn.setText("Say 'Hello World'");
 
@@ -159,8 +166,9 @@ public class MainViewDisplayFX extends Application {
 
         //anchorpane.setStyle("-fx-background-color: #FFD700");
 
-        Button buttonSave = new Button("Save");
-        Button buttonCancel = new Button("Cancel");
+        Button buttonSave = new Button("Start");
+        
+        Button buttonCancel = new Button("Show Example");
 
         HBox hb = new HBox();
         hb.setPadding(new Insets(0, 10, 10, 10));

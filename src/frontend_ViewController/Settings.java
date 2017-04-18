@@ -7,7 +7,7 @@
  * can be found as a .ino file recognizable by the arduino IDE, within the zip package of this
  * program.
  */
-package frontEnd_ViewController;
+package frontend_ViewController;
 
 import com.fazecast.jSerialComm.SerialPort;
 
@@ -18,27 +18,24 @@ import com.fazecast.jSerialComm.SerialPort;
 public class Settings {
     
     private SerialPort port;
+    private int pin;
+    
     private boolean isMatrix;
-    private String patternFolder;
     private int stripLength;
     private int stripWidth;
     
     
-    public Settings(boolean isMatrix, String patternFolder, int stripLength, int stripWidth, SerialPort serialport){
+    public Settings(boolean isMatrix, String patternFolder, int stripLength, int stripWidth, SerialPort serialport, int pin){
         this.isMatrix = isMatrix;
-        this.patternFolder = patternFolder;
         this.stripLength = stripLength;
         this.stripWidth = stripWidth;
         this.port = serialport;
-        System.out.println(this.port);
+        this.pin = pin;
+        System.out.println("Is it a Matrix? " + this.isMatrix + ", Length and Width? " + this.stripLength + "," + this.stripWidth + ", on port " + this.port + ", using pin # " + this.pin);
     }
     
     public boolean getIsMatrix(){
          return this.isMatrix;
-    }
-    
-    public String getPatternFolder(){
-        return this.patternFolder;
     }
            
     public int getStripLength(){
@@ -51,5 +48,9 @@ public class Settings {
     
     public SerialPort getSerialPort(){
         return this.port;
+    }
+    
+    public int getPin(){
+        return this.pin;
     }
 }

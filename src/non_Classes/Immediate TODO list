@@ -1,6 +1,4 @@
-- Turn into a Maven-supported project to allow for dependancies from the central repository
 - Possibly find a library that would allow for easy snap-connect GUI
 - Update Design in order to include the secondary builder profile and an extra popup in the main as a helper for the Arduino half (LED length, white pixel, which pin it is connected to, etc)
-- Implement Ardulink 
-- Get the arduino to do simple commands
 - Main application should be able to provide code in order to program the Arduino, and links to the Aruino IDE website
+- Backend properly sending serial comms to the Arduino.

@@ -3,7 +3,7 @@
  */
 package app_Controller;
 
-import frontEnd_ViewController.MainViewDisplayFX;
+import frontend_ViewController.MainViewDisplayFX;
 
 /**
  *Nothing really within this class, just get the "look and feel" of the OS, then creates a javaFX
