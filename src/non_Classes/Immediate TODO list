@@ -2,3 +2,6 @@
 - Update Design in order to include the secondary builder profile and an extra popup in the main as a helper for the Arduino half (LED length, white pixel, which pin it is connected to, etc)
 - Main application should be able to provide code in order to program the Arduino, and links to the Aruino IDE website
 - Backend properly sending serial comms to the Arduino.
+- Find out performance penalty in the Arduino for Serial.isAvailable();
+- Recode Arduino to return a byte when it finishes parsing a pattern, and to look for a kill byte:
+		2^16-1 (2 bytes for pixel, all bits 1, no bits 0. 255 * 256

@@ -29,18 +29,20 @@ import javafx.application.Platform;
 public class SerialComms implements Closeable {
 
     public SerialComms(Settings settings) {
-        try{
-        this.arduino = new Arduino(settings.getSerialPort().getSystemPortName(), 9600); //enter the port name here, and ensure that Arduino is connected, otherwise exception will be thrown.
-        arduino.openConnection();
-        
-        Kaizen_85.newEvent("SerialComms object constructed.");
-        }catch(NullPointerException e){
-            AlertBox alert = new AlertBox(new Dimension(600,200),"Setting Error","Failed to intialize the serial communication layer: " + e);
-            alert.display();
-            Platform.exit();
-        }
-        // TO IMPLEMENT: pass settings into the arduino for it to initialize
+        if (settings.getDebugMode()) {
+            this.arduino = null;
+        } else {
+            try {
+                this.arduino = new Arduino(settings.getSerialPort().getSystemPortName(), 9600); //enter the port name here, and ensure that Arduino is connected, otherwise exception will be thrown.
+                arduino.openConnection();
 
+                Kaizen_85.newEvent("SerialComms object constructed.");
+            } catch (NullPointerException e) {
+                AlertBox alert = new AlertBox(new Dimension(600, 200), "Setting Error", "Failed to intialize the serial communication layer: " + e);
+                alert.display();
+                Platform.exit();
+            }
+        }
     }
 
     private Arduino arduino;
@@ -59,6 +61,7 @@ public class SerialComms implements Closeable {
     }
 
     public void write(byte[] b) {
+        System.out.println(this.arduino.getPortDescription());
         arduino.byteArrayWrite(b);
     }
 

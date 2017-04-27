@@ -15,16 +15,22 @@ import frontend_ViewController.Settings;
  *
  * @author kell-gigabyte
  */
-public class ExamplePattern extends Pattern {
+public class ColorFillPattern extends Pattern {
 
-    public ExamplePattern(Settings set, SerialComms serial) {
+    public ColorFillPattern(Settings set, SerialComms serial) {
         super(set, serial);
     }
     
     @Override
     public void startPattern() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-         // something like make a char array of the command char plus the three colors one after another in char form
+        System.out.println("Pattern started");
+        byte[] b = new byte[4];
+        b[0] = (byte)getDelay();
+        b[1] = (byte)getRed();
+        b[2] = (byte)getGreen();
+        b[3] = (byte)getBlue();
+        getSerialComms().write(b);
+        
     }
     
     @Override

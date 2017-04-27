@@ -20,8 +20,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -36,7 +34,6 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 /**
@@ -90,6 +87,8 @@ public class InitPopup extends MainViewDisplayFX {
 
     private Button SaveSettings = new Button("Save Settings");
 
+    private boolean isDebug = false;
+
     private Node confirmButton;
 
     private void createStage() {         // creates the GUI for the popup
@@ -107,6 +106,8 @@ public class InitPopup extends MainViewDisplayFX {
         ToggleButton Strip = new ToggleButton(StripStr);
         ToggleGroup aStrip = new ToggleGroup();
         Strip.setToggleGroup(aStrip);
+
+        ToggleButton DebugBtn = new ToggleButton("Debug mode");
 
         PortDropdownMenuFX portChooser = new PortDropdownMenuFX();
         portChooser.refreshMenu();
@@ -139,6 +140,15 @@ public class InitPopup extends MainViewDisplayFX {
         Save folder syntax:
             [isMatrix],[stripLength],[StripWidth],[pin],[Pattern folder], [Log folder]
          */
+        DebugBtn.setOnAction((ActionEvent event) -> {
+            if (this.isDebug) {
+                this.isDebug = false;
+            } else {
+                this.isDebug = true;
+            }
+            checkData();
+        });
+
         SaveSettings.setOnAction((ActionEvent event) -> {
             String folder;
             String saveString;
@@ -252,6 +262,7 @@ public class InitPopup extends MainViewDisplayFX {
         grid.add(LogBtn, 1, 4);
         grid.add(LoadSettings, 0, 5);
         grid.add(SaveSettings, 1, 5);
+        grid.add(DebugBtn, 0, 6);
         grid.setGridLinesVisible(false);
 
         this.confirmButton = dialog.getDialogPane().lookupButton(confirmButtonType);
@@ -292,7 +303,9 @@ public class InitPopup extends MainViewDisplayFX {
             //System.err.println("Number entered on init panel is invalid, please try again.");
         }
 
-        if (intParsable && this.currentPort != null) {
+        if (this.isDebug) {
+            this.confirmButton.setDisable(false);
+        } else if (intParsable && this.currentPort != null) {
             this.stripLength = Integer.parseInt(this.LengthStrText.getText());
             this.stripWidth = Integer.parseInt(this.WidthStrText.getText());
             this.pin = Integer.parseInt(this.PinStrText.getText());
@@ -301,6 +314,7 @@ public class InitPopup extends MainViewDisplayFX {
         } else {
             this.confirmButton.setDisable(true);
         }
+
         this.SaveSettings.setDisable(!checkIfSaveable());
         /*
         if (!this.logFolder.isEmpty() && intParsable && this.currentPort != null) {             // USE THIS VERSION FOR FINAL RELEASE
@@ -342,7 +356,12 @@ public class InitPopup extends MainViewDisplayFX {
     }
 
     protected Settings SaveSettings() {
-        Settings newSettings = new Settings(this.isMatrix, this.patternFolder, this.stripLength, this.stripWidth, this.currentPort, this.pin);
+        Settings newSettings;
+        if (this.isDebug) {
+            newSettings = new Settings();
+        } else {
+            newSettings = new Settings(this.isMatrix, this.patternFolder, this.stripLength, this.stripWidth, this.currentPort, this.pin);
+        }
         //System.out.println(this.currentPort.getSystemPortName());
         Kaizen_85.setLogPath(this.logFolder);
         return newSettings;

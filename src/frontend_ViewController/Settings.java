@@ -9,6 +9,7 @@
  */
 package frontend_ViewController;
 
+import app_Controller.Kaizen_85;
 import com.fazecast.jSerialComm.SerialPort;
 
 /**
@@ -24,6 +25,8 @@ public class Settings {
     private int stripLength;
     private int stripWidth;
     
+    private boolean debugMode = false;
+    
     
     public Settings(boolean isMatrix, String patternFolder, int stripLength, int stripWidth, SerialPort serialport, int pin){
         this.isMatrix = isMatrix;
@@ -32,6 +35,13 @@ public class Settings {
         this.port = serialport;
         this.pin = pin;
         System.out.println("Is it a Matrix? " + this.isMatrix + ", Length and Width? " + this.stripLength + "," + this.stripWidth + ", on port " + this.port + ", using pin # " + this.pin);
+        Kaizen_85.newEvent("Settings initialized normally.");
+    }
+    
+    public Settings(){
+        this.debugMode = true;
+        System.err.println("Debug mode activated.");
+        Kaizen_85.newEvent("Settings initialized uncorrectly, Debug mode enabled.");
     }
     
     public boolean getIsMatrix(){
@@ -52,5 +62,9 @@ public class Settings {
     
     public int getPin(){
         return this.pin;
+    }
+    
+    public boolean getDebugMode(){
+        return this.debugMode;
     }
 }
