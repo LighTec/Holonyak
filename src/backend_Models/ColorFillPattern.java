@@ -9,6 +9,7 @@
  */
 package backend_Models;
 
+import app_Controller.Kaizen_85;
 import frontend_ViewController.Settings;
 
 /**
@@ -23,7 +24,7 @@ public class ColorFillPattern extends Pattern {
     
     @Override
     public void startPattern() {
-        System.out.println("Pattern started");
+        Kaizen_85.newEvent("Color Fill Pattern Started.");
         byte[] b = new byte[4];
         b[0] = (byte)getDelay();
         b[1] = (byte)getRed();

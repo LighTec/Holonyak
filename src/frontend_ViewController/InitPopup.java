@@ -98,6 +98,7 @@ public class InitPopup extends MainViewDisplayFX {
 
         ButtonType confirmButtonType = new ButtonType("Enter", ButtonData.APPLY);
         dialog.getDialogPane().getButtonTypes().addAll(confirmButtonType);
+        dialog.getDialogPane().setStyle("-fx-background-color: #404040;");
 
         String StripStr = "In a Strip";
         String MatrixStr = "In a Matrix";
@@ -235,6 +236,7 @@ public class InitPopup extends MainViewDisplayFX {
         });
 
         GridPane grid = new GridPane();
+        grid.setStyle("-fx-background-color: #FF9933;");
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
