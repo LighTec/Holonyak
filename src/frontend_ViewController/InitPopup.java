@@ -46,7 +46,7 @@ import javafx.stage.FileChooser;
  *
  * @author kell-gigabyte
  */
-public class InitPopup extends MainViewDisplayFX {
+public class InitPopup {
 
     boolean isMatrix;
 
@@ -256,7 +256,7 @@ public class InitPopup extends MainViewDisplayFX {
         grid.add(this.WidthStrText, 2, 0);
         grid.add(new Label("Are your LED's in an matrix, or a strip?"), 0, 1);
         grid.add(Strip, 1, 1);
-        grid.add(new Label("Please pick the port the Arduino is on (usually ttyACM0, or COM1)"), 0, 2);
+        grid.add(new Label("Please pick a USB port for the Arduino. (usually ttyACM0, or COM1)"), 0, 2);
         grid.add(portChooser, 1, 2);
         grid.add(new Label("What pin is your LED strip on? (usually numbered on the Arduino)"), 0, 3);
         grid.add(this.PinStrText, 1, 3);

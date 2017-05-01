@@ -1,0 +1,11 @@
+"System hook" used for capturing key presses while in the background:
+http://kra.lc/blog/2016/02/java-global-system-hook/
+
+Serial communication:
+https://github.com/Fazecast/jSerialComm
+
+Extension of the serial communication library for the arduino that I modified:
+https://github.com/HirdayGupta/Java-Arduino-Communication-Library
+
+Application Icon edited from an adafruit product:
+https://www.adafruit.com/product/2659

@@ -10,6 +10,7 @@ import com.fazecast.jSerialComm.SerialPort;
 import frontend_ViewController.Settings;
 import java.awt.Dimension;
 import java.io.Closeable;
+import java.util.Formatter;
 import javafx.application.Platform;
 
 /**
@@ -37,7 +38,32 @@ public class SerialComms implements Closeable {
                 arduino.openConnection();
 
                 Kaizen_85.newEvent("SerialComms object constructed.");
-            } catch (NullPointerException e) {
+
+                if (settings.getPin() > 255 || settings.getPin() < 0) {
+                    throw new GeneralSettingsException("Pin # above acceptable range" + settings.getPin());
+                }
+
+                String pin = Integer.toHexString(settings.getPin());
+                while(pin.length() < 2){
+                    pin = "0" + pin;
+                }
+                //System.out.println(pin + " is the pin set.");
+                Kaizen_85.newEvent("Pin as a hex: " + pin);
+                
+                String pixelsNum = Integer.toHexString(settings.getStripLength() * settings.getStripWidth());
+                while(pixelsNum.length() < 3){
+                    pixelsNum = "0" + pixelsNum;
+                }
+                
+                Kaizen_85.newEvent("Pixel amount, as hexadecimal: " + pixelsNum);
+                //System.out.println(pixelsNum + " is the set # of pixels.");
+                
+                String initString = "" + pin + pixelsNum + "z";
+                
+                arduino.serialWrite(initString);
+                //System.out.println(initString);
+
+            } catch (NullPointerException | GeneralSettingsException e) {
                 AlertBox alert = new AlertBox(new Dimension(600, 200), "Setting Error", "Failed to intialize the serial communication layer: " + e);
                 alert.display();
                 Platform.exit();
@@ -61,7 +87,7 @@ public class SerialComms implements Closeable {
     }
 
     public void write(byte[] b) {
-        System.out.println(this.arduino.getPortDescription());
+        //System.out.println(this.arduino.getPortDescription());
         arduino.byteArrayWrite(b);
     }
 

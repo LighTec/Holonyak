@@ -10,10 +10,16 @@
 package frontend_ViewController;
 
 import app_Controller.Kaizen_85;
+import arduinocomms2.AlertBox;
 import backend_Models.ColorFillPattern;
 import backend_Models.Pattern;
+import backend_Models.RainbowCyclePattern;
+import backend_Models.RainbowPattern;
 import backend_Models.SerialComms;
+import backend_Models.TheaterChasePattern;
+import backend_Models.TheaterChaseRainbowPattern;
 import java.awt.Color;
+import java.awt.Dimension;
 
 /**
  *
@@ -51,24 +57,66 @@ public class ViewController {
     public void setPattern(Pattern pat) {
         pattern = pat;
     }
-    
+
     public void setFillPattern() {
         pattern = new ColorFillPattern(this.settings, serialComms);
     }
-    
-    public void setPatternColor(Color c){
-                this.pattern.setColor(c);
+
+    public void setRainbowPattern() {
+        pattern = new RainbowPattern(this.settings, serialComms);
     }
-    
-    public void setPatternColor(int r, int g, int b){
-        this.pattern.setColor(r, g, b);
+
+    public void setRainbowCyclePattern() {
+        pattern = new RainbowCyclePattern(this.settings, serialComms);
     }
-    
-    public void setPatternDelay(int wait){
-           this.pattern.setDelay(wait);
+
+    public void setTheaterChasePattern() {
+        pattern = new TheaterChasePattern(this.settings, serialComms);
+    }
+
+    public void setTheaterChaseRainbowPattern() {
+        pattern = new TheaterChaseRainbowPattern(this.settings, serialComms);
+    }
+
+    /*
+    public void setPattern(){
+        pattern = new Pattern(this.settings, serialComms);
+    }
+     */
+    public void setPatternColor(Color c) {
+        try {
+            pattern.setColor(c);
+        } catch (NullPointerException e) {
+            AlertBox alert = new AlertBox(new Dimension(400, 200), "Set color error", "Please choose a pattern before setting its color.");
+            alert.display();
+        }
+    }
+
+    public void setPatternColor(int r, int g, int b) {
+        try {
+            pattern.setColor(r, g, b);
+        } catch (NullPointerException e) {
+            AlertBox alert = new AlertBox(new Dimension(400, 200), "Set color error", "Please choose a pattern before setting its color.");
+            alert.display();
+        }
+
+    }
+
+    public void setPatternDelay(int wait) {
+        try {
+            pattern.setDelay(wait);
+        } catch (NullPointerException e) {
+            AlertBox alert = new AlertBox(new Dimension(400, 200), "Set delay error", "Please choose a pattern before setting its delay.");
+            alert.display();
+        }
     }
 
     public void startPattern() {
-        pattern.startPattern();
+        try {
+            pattern.startPattern();
+        } catch (NullPointerException e) {
+            AlertBox alert = new AlertBox(new Dimension(400, 200), "Pattern start error", "Please choose a pattern before starting it...");
+            alert.display();
+        }
     }
 }

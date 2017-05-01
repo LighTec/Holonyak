@@ -34,13 +34,13 @@ public class Settings {
         this.stripWidth = stripWidth;
         this.port = serialport;
         this.pin = pin;
-        System.out.println("Is it a Matrix? " + this.isMatrix + ", Length and Width? " + this.stripLength + "," + this.stripWidth + ", on port " + this.port + ", using pin # " + this.pin);
+        //System.out.println("Is it a Matrix? " + this.isMatrix + ", Length and Width? " + this.stripLength + "," + this.stripWidth + ", on port " + this.port + ", using pin # " + this.pin);
         Kaizen_85.newEvent("Settings initialized normally.");
     }
     
     public Settings(){
         this.debugMode = true;
-        System.err.println("Debug mode activated.");
+        //System.err.println("Debug mode activated.");
         Kaizen_85.newEvent("Settings initialized uncorrectly, Debug mode enabled.");
     }
     

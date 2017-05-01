@@ -9,3 +9,22 @@ V0.095: InitPopup can now save/load settings, backend expanded. Refactored packa
 V0.10 (CommDev): Massive reoganization, throwing out multiple classes in favor of a better structure that follows SRP and open-closed principles.
 V0.11 (ColorExt): GUI can now control Arduino, SerialComms now static for easier passing between Patterns.
 V0.2 (ProtoDuino): User selected color values with text boxes and sliders. The Prototype.
+V0.21 (NeoPixPat): Added more patterns for the Arduino, all based upon the striptest example file given for neopixels. Pattern delays implemented. Implemented single color picking from the GUI.
+
+
+Roadmap:
+
+(General roadmap)
+
+V0.2 Basic pattern implementation
+V0.3 Advanced pattern implementation
+V0.9 GUI cleanup, CSS usage possibly
+V1.0 Serial error detection
+
+
+(A more specific roadmap)
+
+V0.22: Send text to display on LED matrix
+V0.3: Patterns with multiple colors as parameters
+V0.31: Key press recognition, auto sending key presses to arduino
+V0.32: Audio visualization from system sound

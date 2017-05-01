@@ -17,6 +17,8 @@ import java.awt.Color;
  * @author kell-gigabyte
  */
 public abstract class Pattern {
+    
+    private final int CMDNUMBER = -1;
 
     private final Settings settings;
     private static SerialComms serialcomms;
@@ -38,13 +40,10 @@ public abstract class Pattern {
         this.blue = c.getBlue();
     }
 
-    public boolean setColor(int r, int g, int b) {
-        if(r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) // if any color values exceed 255, or less than 0
-            return false;
+    public void setColor(int r, int g, int b) {
         this.red = r;
         this.green = g;
         this.blue = b;
-        return true;
     }
 
     public void setDelay(int i) {
@@ -98,10 +97,6 @@ public abstract class Pattern {
 
     public void startPattern(){
          throw new UnsupportedOperationException("startPattern method has not been overridden!");
-    }
-    
-    public void stopPattern(){
-        throw new UnsupportedOperationException("stopPattern method has not been overridden!");
     }
 
     //public void startPattern(DemoDisplay d);           // will implement a demoDisplay for the GUI later hopefully.

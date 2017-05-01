@@ -11,7 +11,6 @@ package frontend_ViewController;
 
 import app_Controller.Kaizen_85;
 import backend_Models.GeneralSettingsException;
-import java.awt.Color;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -20,6 +19,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
@@ -46,8 +46,13 @@ public class MainViewDisplayFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws GeneralSettingsException {
-        primaryStage.setTitle("JavaFX Testground, Capstone V0.20 ProtoDuino");
-
+        primaryStage.setTitle("Capstone V0.21 NeoPixPat");
+        primaryStage.getIcons().add(new Image("/JavaFX/icon256.png"));
+        primaryStage.getIcons().add(new Image("/JavaFX/icon128.png"));
+        primaryStage.getIcons().add(new Image("/JavaFX/icon64.png"));
+        primaryStage.getIcons().add(new Image("/JavaFX/icon32.png"));
+        primaryStage.getIcons().add(new Image("/JavaFX/icon16.png"));
+        
         BorderPane root = new BorderPane();
 
         HBox hbox = addHBox();
@@ -90,10 +95,12 @@ public class MainViewDisplayFX extends Application {
     private TextField redField = new TextField("0");
     private TextField greenField = new TextField("0");
     private TextField blueField = new TextField("0");
+    private TextField delayField = new TextField("0");
 
     private Slider redSlider = new Slider();
     private Slider greenSlider = new Slider();
     private Slider blueSlider = new Slider();
+    private Slider delaySlider = new Slider();
 
     private GridPane addGridPane() {
         GridPane grid = new GridPane();
@@ -105,25 +112,28 @@ public class MainViewDisplayFX extends Application {
 
         //grid.setStyle("-fx-background-color:#0000FF;");
         //scenetitle.setFill(Color.SALMON);
-        
         Text sceneTitle = new Text("Welcome");
         sceneTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
 
         Text redTitle = new Text("Red: ");
         Text greenTitle = new Text("Green: ");
         Text blueTitle = new Text("Blue: ");
+        Text delayTitle = new Text("Delay: ");
 
         this.redSlider.setMin(0);
         this.greenSlider.setMin(0);
         this.blueSlider.setMin(0);
+        this.delaySlider.setMin(0);
 
         this.redSlider.setMax(255);
         this.greenSlider.setMax(255);
         this.blueSlider.setMax(255);
+        this.delaySlider.setMax(1000);
 
         this.redField.setMaxWidth(45);
         this.greenField.setMaxWidth(45);
         this.blueField.setMaxWidth(45);
+        this.delayField.setMaxWidth(60);
 
         this.redSlider.valueProperty().addListener((ov, t, t1) -> {
             updateValuesText();
@@ -132,6 +142,9 @@ public class MainViewDisplayFX extends Application {
             updateValuesText();
         });
         this.greenSlider.valueProperty().addListener((ov, t, t1) -> {
+            updateValuesText();
+        });
+        this.delaySlider.valueProperty().addListener((ov, t, t1) -> {
             updateValuesText();
         });
 
@@ -144,19 +157,26 @@ public class MainViewDisplayFX extends Application {
         this.blueField.textProperty().addListener((ov, t, t1) -> {
             updateValuesSlider();
         });
+        this.delayField.textProperty().addListener((ov, t, t1) -> {
+            updateValuesSlider();
+        });
+
         grid.add(sceneTitle, 0, 0, 2, 1);
 
         grid.add(redTitle, 0, 1);
         grid.add(greenTitle, 0, 2);
         grid.add(blueTitle, 0, 3);
+        grid.add(delayTitle, 0, 4);
 
         grid.add(this.redSlider, 1, 1);
         grid.add(this.greenSlider, 1, 2);
         grid.add(this.blueSlider, 1, 3);
+        grid.add(this.delaySlider, 1, 4);
 
         grid.add(this.redField, 2, 1);
         grid.add(this.greenField, 2, 2);
         grid.add(this.blueField, 2, 3);
+        grid.add(this.delayField, 2, 4);
 
         //grid.setGridLinesVisible(true);
         return grid;
@@ -170,33 +190,25 @@ public class MainViewDisplayFX extends Application {
         flow.setVgap(4);
         flow.setHgap(4);
         flow.setPrefWrapLength(170); // preferred width allows for two columns
-        //Button HelloBtn = new Button();
-        //Button SetLedBtn = new Button();
-
-        //Button RainbowBtn = new Button();
-        Button RedBtn = new Button();
-        Button GreenBtn = new Button();
-        Button BlueBtn = new Button();
-        //   Button WhiteBtn = new Button();
-        //  Button ClearBtn = new Button();
 
         Button ColorFillBtn = new Button("Color Fill");
-
         ColorFillBtn.setOnAction(this::ColorFillPattern);
 
-        //RainbowBtn.setText("Rainbow");
+        Button RainbowBtn = new Button("Rainbow");
+        RainbowBtn.setOnAction(this::RainbowPattern);
+
+        Button RainbowCycleBtn = new Button("Rainbow Cycle");
+        RainbowCycleBtn.setOnAction(this::RainbowCyclePattern);
+
+        Button TheaterChaseBtn = new Button("TheaterChase");
+        TheaterChaseBtn.setOnAction(this::TheaterChasePattern);
+
+        Button TheaterChaseRainbowBtn = new Button("TheaterChaseRainbow");
+        TheaterChaseRainbowBtn.setOnAction(this::TheaterChaseRainbowPattern);
+
         // HelloBtn.setText("Say 'Hello World'");
         //  HelloBtn.setOnAction(this::HelloWorld);
-        RedBtn.setOnAction(this::RedPattern);
-        GreenBtn.setOnAction(this::GreenPattern);
-        BlueBtn.setOnAction(this::BluePattern);
-
-        // SetLedBtn.setText("Set the led a colour");
-        RedBtn.setText("Make LED Red");
-        GreenBtn.setText("Make LED Green");
-        BlueBtn.setText("Make LED Blue");
-
-        flow.getChildren().addAll(/*HelloBtn, SetLedBtn,*/RedBtn, GreenBtn, BlueBtn, ColorFillBtn);
+        flow.getChildren().addAll(ColorFillBtn, RainbowBtn, RainbowCycleBtn, TheaterChaseBtn, TheaterChaseRainbowBtn);
 
         return flow;
     }
@@ -212,10 +224,13 @@ public class MainViewDisplayFX extends Application {
         Button SetColorBtn = new Button("Set Color");
         SetColorBtn.setOnAction(this::ColorSet);
 
+        Button setDelayBtn = new Button("Set Delay");
+        setDelayBtn.setOnAction(this::DelaySet);
+
         HBox hb = new HBox();
         hb.setPadding(new Insets(0, 10, 10, 10));
         hb.setSpacing(10);
-        hb.getChildren().addAll(StartBtn, SetColorBtn);
+        hb.getChildren().addAll(StartBtn, SetColorBtn, setDelayBtn);
 
         anchorpane.getChildren().addAll(grid, hb);
         // Anchor buttons to bottom right, anchor grid to top
@@ -230,32 +245,37 @@ public class MainViewDisplayFX extends Application {
         this.MVControl.HelloWorld();
     }
 
-    private void RedPattern(ActionEvent event) {
-        Kaizen_85.newEvent("Default pattern start.");
-        this.MVControl.setFillPattern();
-        this.MVControl.setPatternColor(Color.red);
-        this.MVControl.setPatternDelay(20);
-    }
-
-    private void BluePattern(ActionEvent event) {
-        Kaizen_85.newEvent("Default pattern start.");
-        this.MVControl.setFillPattern();
-        this.MVControl.setPatternColor(Color.blue);
-        this.MVControl.setPatternDelay(20);
-    }
-
-    private void GreenPattern(ActionEvent event) {
-        Kaizen_85.newEvent("Default pattern start.");
-        this.MVControl.setFillPattern();
-        this.MVControl.setPatternColor(Color.green);
-        this.MVControl.setPatternDelay(20);
-    }
-
     private void ColorFillPattern(ActionEvent event) {
-        Kaizen_85.newEvent("Color full pattern set.");
+        Kaizen_85.newEvent("Color fill pattern set.");
         this.MVControl.setFillPattern();
     }
 
+    private void RainbowPattern(ActionEvent event) {
+        Kaizen_85.newEvent("Rainbow pattern set.");
+        this.MVControl.setRainbowPattern();
+    }
+
+    private void RainbowCyclePattern(ActionEvent event) {
+        Kaizen_85.newEvent(" pattern set.");
+        this.MVControl.setRainbowCyclePattern();
+    }
+
+    private void TheaterChasePattern(ActionEvent event) {
+        Kaizen_85.newEvent(" pattern set.");
+        this.MVControl.setTheaterChasePattern();
+    }
+
+    private void TheaterChaseRainbowPattern(ActionEvent event) {
+        Kaizen_85.newEvent(" pattern set.");
+        this.MVControl.setTheaterChaseRainbowPattern();
+    }
+
+    /*
+    private void Pattern(ActionEvent event){
+        Kaizen_85.newEvent(" pattern set.");
+        this.MVControl.setPattern();
+    }
+     */
     private void startPattern(ActionEvent event) {
         Kaizen_85.newEvent("Pattern button pressed, pattern starting.");
         this.MVControl.startPattern();
@@ -269,11 +289,38 @@ public class MainViewDisplayFX extends Application {
         this.MVControl.setPatternColor(red, green, blue);
     }
 
+    private void DelaySet(ActionEvent event) {
+        int delay = Integer.parseInt(this.delayField.getText());
+        this.MVControl.setPatternDelay(delay);
+    }
+
     private void updateValuesSlider() { // updates sliders from text fields
-        Kaizen_85.newEvent("Values dupated from text flields to sliders.");
-        int red = Integer.parseInt(this.redField.getText());
-        int green = Integer.parseInt(this.greenField.getText());
-        int blue = Integer.parseInt(this.blueField.getText());
+        //Kaizen_85.newEvent("Values dupated from text flields to sliders.");
+        int red, green, blue, delay;
+        if(this.redField.getText().equals("")){
+            red = 0;
+        }else{
+             red = Integer.parseInt(this.redField.getText());
+        }
+        if(this.greenField.getText().equals("")){
+            green = 0;
+        }else{
+             green = Integer.parseInt(this.greenField.getText());
+        }
+        if(this.blueField.getText().equals("")){
+            blue = 0;
+        }else{
+             blue = Integer.parseInt(this.blueField.getText());
+        }
+        if(this.delayField.getText().equals("")){
+            delay = 0;
+        }else{
+            delay = Integer.parseInt(this.delayField.getText());
+        }
+       
+        
+       
+      
         if (red > 255) {
             red = 255;
         } else if (red < 0) {
@@ -288,17 +335,24 @@ public class MainViewDisplayFX extends Application {
             blue = 255;
         } else if (blue < 0) {
             blue = 0;
+        }
+        if (delay > 2000) {
+            delay = 2000;
+        } else if (delay < 0) {
+            delay = 0;
         }
         this.redSlider.setValue(red);
         this.greenSlider.setValue(green);
         this.blueSlider.setValue(blue);
+        this.delaySlider.setValue(delay);
     }
 
     private void updateValuesText() { // updates text fields from sliders
-        Kaizen_85.newEvent("Values dupated from sliders to text fields.");
+        //Kaizen_85.newEvent("Values dupated from sliders to text fields.");
         int red = (int) Math.round(this.redSlider.getValue());
         int green = (int) Math.round(this.greenSlider.getValue());
         int blue = (int) Math.round(this.blueSlider.getValue());
+        int delay = (int) Math.round(this.delaySlider.getValue());
         if (red > 255) {
             red = 255;
         } else if (red < 0) {
@@ -314,12 +368,21 @@ public class MainViewDisplayFX extends Application {
         } else if (blue < 0) {
             blue = 0;
         }
+        if (delay > 2000) {
+            delay = 2000;
+        } else if (delay < 0) {
+            delay = 0;
+        }
+
         String r = "" + red;
         String g = "" + green;
         String b = "" + blue;
+        String d = "" + delay;
 
         this.redField.setText(r);
         this.greenField.setText(g);
         this.blueField.setText(b);
+        this.delayField.setText(d);
     }
+
 }
