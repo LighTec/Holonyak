@@ -10,9 +10,10 @@
 package frontend_View;
 
 import app_Controller.Kaizen_85;
+import arduinocomms2.AlertBox;
 import backend_Models.GeneralSettingsException;
+import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.List;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -72,11 +73,11 @@ public class MainViewDisplayFX extends Application {
 
     private Rectangle lastRect;
 
-    private String hexHbox = "4A444B";
-    private String hexButtonBox = "BA0101";
-    private String hexColorBox = "FFFFF0";
-    private String hexDelayBox = "78866B";
-    private String hexSliderBox = "007FFF";
+    private final String hexHbox = "4A444B";
+    private final String hexButtonBox = "BA0101";
+    private final String hexColorBox = "FFFFF0";
+    private final String hexDelayBox = "78866B";
+    private final String hexSliderBox = "007FFF";
 
     @Override
     public void start(Stage primaryStage) throws GeneralSettingsException {
@@ -393,7 +394,7 @@ public class MainViewDisplayFX extends Application {
         }
 
         if (this.colorRectArr.size() == colors) {
-            System.out.println("color rect arr equal to colors");
+            //System.out.println("color rect arr equal to colors");
             // do nothing
         } else {
             while (this.colorRectArr.size() < colors) {
@@ -418,6 +419,7 @@ public class MainViewDisplayFX extends Application {
                 addRectangle(false);
             }
             while (this.delayRectArr.size() > delays) {
+                //System.out.println("delay rect arr greather than delays");
                 this.delayRectArr.remove(this.delayRectArr.size() - 1);
             }
         }
@@ -450,38 +452,13 @@ public class MainViewDisplayFX extends Application {
                 this.lastRect = rect;
             } else {
                 if (isColor) {
-                    int index = colorRectArr.indexOf(this.lastRect);
-                    if (index < 0) {
-                        this.lastRect = rect;
-                    } else {
-                        //System.out.println("Array num for last color = " + index);
-                        int red = Integer.parseInt(this.redField.getText());
-                        int green = Integer.parseInt(this.greenField.getText());
-                        int blue = Integer.parseInt(this.blueField.getText());
-                        this.redArr.set(index, red);
-                        this.greenArr.set(index, green);
-                        this.blueArr.set(index, blue);
-                        int newIndex = this.colorRectArr.indexOf(rect);
-                        //System.out.println("Array num for current color = " + newIndex);
-                        this.lastRect = rect;
-                        this.setColorSliders(this.redArr.get(newIndex),this.greenArr.get(newIndex), this.blueArr.get(newIndex));
-                    }
+                    this.setRectangles(rect);
                 } else {
-                    int index = delayRectArr.indexOf(this.lastRect);
-                    if (index < 0) {
-                        this.lastRect = rect;
-                    } else {
-                        //System.out.println("Array num for last delay = " + index);
-                        int delay = Integer.parseInt(this.delayField.getText());
-                        this.delayArr.set(index, delay);
-                        int newIndex = this.delayRectArr.indexOf(rect);
-                        //System.out.println("Array num for current delay = " + newIndex);
-                        this.lastRect = rect;
-                        this.setDelaySlider(this.delayArr.get(newIndex));
-                    }
+                    this.setRectangles(rect);
                 }
             }
             disableSliders(isColor);
+
         });
 
         if (isColor) {
@@ -526,7 +503,53 @@ public class MainViewDisplayFX extends Application {
      */
     private void startPattern(ActionEvent event) {
         Kaizen_85.newEvent("Pattern button pressed, pattern starting.");
+        this.setRectangles();
+        this.sendRectangleValues();
         this.MVControl.startPattern();
+    }
+
+    private void setRectangles(Rectangle newRectangle) {
+        int colorIndex = this.colorRectArr.indexOf(this.lastRect);
+        int delayIndex = this.delayRectArr.indexOf(this.lastRect);
+        if (colorIndex < 0 && delayIndex > -1) {
+            this.delayArr.set(delayIndex, (int) Math.round(this.delaySlider.getValue()));
+        } else if (colorIndex > -1 && delayIndex < 0) {
+            this.redArr.set(colorIndex, (int) Math.round(this.redSlider.getValue()));
+            this.greenArr.set(colorIndex, (int) Math.round(this.greenSlider.getValue()));
+            this.blueArr.set(colorIndex, (int) Math.round(this.blueSlider.getValue()));
+        } else {
+            AlertBox alert = new AlertBox(new Dimension(400, 200), "Pattern Start Error", "Could not find the last Rectangle in either array... ???");
+            alert.display();
+        }
+        
+        int newIndexColor = this.colorRectArr.indexOf(newRectangle);
+        int newIndexDelay = this.delayRectArr.indexOf(newRectangle);
+        this.lastRect = newRectangle;
+        
+        if(newIndexColor < 0 && newIndexDelay > -1){
+            this.setDelaySlider(this.delayArr.get(newIndexDelay));
+        }else if(newIndexColor > -1 && newIndexDelay < 0){
+            this.setColorSliders(this.redArr.get(newIndexColor), this.greenArr.get(newIndexColor), this.blueArr.get(newIndexColor));
+        }else{
+            AlertBox alert = new AlertBox(new Dimension(400, 200), "Pattern Start Error", "Could not find the current Rectangle in either array... ???");
+            alert.display();
+        }
+    }
+
+    private void setRectangles() {
+        int colorIndex = this.colorRectArr.indexOf(this.lastRect);
+        int delayIndex = this.delayRectArr.indexOf(this.lastRect);
+        if (colorIndex < 0 && delayIndex > -1) {
+            this.delayArr.set(delayIndex, (int) Math.round(this.delaySlider.getValue()));
+
+        } else if (colorIndex > -1 && delayIndex < 0) {
+            this.redArr.set(colorIndex, (int) Math.round(this.redSlider.getValue()));
+            this.greenArr.set(colorIndex, (int) Math.round(this.greenSlider.getValue()));
+            this.blueArr.set(colorIndex, (int) Math.round(this.blueSlider.getValue()));
+        } else {
+            AlertBox alert = new AlertBox(new Dimension(400, 200), "Pattern Start Error", "Could not find the last Rectangle in either array... ???");
+            alert.display();
+        }
     }
 
     private void updateColorSliders() { // updates sliders from text fields
@@ -651,5 +674,22 @@ public class MainViewDisplayFX extends Application {
         //System.out.println("Delay: " + delay);
         this.delaySlider.setValue(delay);
         updateDelayText();
+    }
+
+    /**
+     * Sends the values of colors and delays from the Rectangles on the GUI to
+     * the pattern at the backend.
+     */
+    public void sendRectangleValues() {
+        for (int i = 0; i < this.redArr.size(); i++) {
+            //System.out.println("Sending color from array index " + i + ", red: " + this.redArr.get(i) + " green: " + this.greenArr.get(i) + " blue: " + this.blueArr.get(i));
+            this.MVControl.setPatternColor(this.redArr.get(i), this.greenArr.get(i), this.blueArr.get(i), i);
+        }
+        int i = 0;
+        for (int delay : this.delayArr) {
+            //System.out.println("Sending delay from array index " + i + ", delay: " + delay);
+            this.MVControl.setPatternDelay(delay, i);
+            i++;
+        }
     }
 }

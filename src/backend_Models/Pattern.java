@@ -47,8 +47,14 @@ public abstract class Pattern {
         serialcomms = serial;
         this.colors = colors;
         Colors = new Color[colors];
+        for (int i = 0; i < this.colors; i++) {
+            Colors[i] = new Color(0, 0, 0);
+        }
         this.delays = delays;
         Delays = new int[delays];
+        for (int i = 0; i < this.delays; i++) {
+            Delays[i] = 0;
+        }
         this.commandNum = commandNum;
         int bytelength = (colors * 3) + (delays * 2) + 3; // additional 3, for the escape and command bytes
         this.serialBytes = new byte[bytelength];
@@ -84,15 +90,18 @@ public abstract class Pattern {
     }
 
     public void setColor(Color c, int index) {
+        //System.out.println(c.getRed() + " " + c.getGreen() + " " + c.getBlue() + " set.");
         this.Colors[index] = c;
     }
 
     public void setColor(int r, int g, int b, int index) {
+        //System.out.println(r + " " + g + " " + b + " set.");
         Color c = new Color(r, g, b);
         this.Colors[index] = c;
     }
 
     public void setDelay(int delay, int index) {
+        //System.out.println(delay + " set.");
         this.Delays[index] = delay;
     }
 
@@ -107,8 +116,8 @@ public abstract class Pattern {
     public int getBlue(int index) {
         return this.Colors[index].getBlue();
     }
-    
-    public Color getColor(int index){
+
+    public Color getColor(int index) {
         return this.Colors[index];
     }
 
@@ -121,7 +130,16 @@ public abstract class Pattern {
     }
 
     public void sendPattern() {
-        
+        /*                                                           
+        System.out.println("Colors:");
+        for (Color c : Colors) {
+            System.out.println("R" + c.getRed() + " G" + c.getGreen() + " B" + c.getBlue());
+        }
+        System.out.println("Delays:");          // used for testing
+        for (int i : Delays) {
+            System.out.println(i);
+        }   
+         */
         serialBytes[0] = (byte) (255 & 0xFF);
         serialBytes[1] = (byte) (this.commandNum & 0xFF);
         if (keyReact) {
@@ -142,10 +160,20 @@ public abstract class Pattern {
             i += 2;
         }
         sendByteArray(serialBytes);
+        //printByteArray(serialBytes);
     }
 
     public void sendByteArray(byte[] b) {
         getSerialComms().write(b);
+    }
+
+    public void printByteArray(byte[] b) {
+        System.out.println("Byte Array:");
+        int i = 0;
+        for (byte bt : b) {
+            System.out.println(i + "\t" + Byte.toUnsignedInt(bt));
+            i++;
+        }
     }
 
     public Settings getSettings() {

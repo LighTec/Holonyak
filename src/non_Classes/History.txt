@@ -1,17 +1,18 @@
-V0.03: JavaFX initial creation
-V0.04: Introduction of Gridpane to create a GUI
-V0.05: A more complex, easy to manage GUI. Also stub class for managing GUI and backend
-V0.06: Created an initialization dialouge to gather info from the user, implemented within the view. Also created a settings class to compliment this.
-V0.07: Log directory chooser, logger, generalsettingsexception, small changes to mainviewdisplay, General quality of life improvements.
-V0.08: ??? (something to do with refactoring the backend I believe)
-V0.09: Improved initpopup to allow choosing a serial port, backend becomes more refined for the chosen form of serial communication (calling commands that reside on the arduino)
-V0.095: InitPopup can now save/load settings, backend expanded. Refactored packages for better naming, Pattern classes collapsed from 3 to 2, no more LED and Pixel Classes, only LED renamed as Pixel.
-V0.10 (CommDev): Massive reoganization, throwing out multiple classes in favor of a better structure that follows SRP and open-closed principles.
-V0.11 (ColorExt): GUI can now control Arduino, SerialComms now static for easier passing between Patterns.
+V0.0.3: JavaFX initial creation
+V0.0.4: Introduction of Gridpane to create a GUI
+V0.0.5: A more complex, easy to manage GUI. Also stub class for managing GUI and backend
+V0.0.6: Created an initialization dialouge to gather info from the user, implemented within the view. Also created a settings class to compliment this.
+V0.0.7: Log directory chooser, logger, generalsettingsexception, small changes to mainviewdisplay, General quality of life improvements.
+V0.0.8: ??? (something to do with refactoring the backend I believe)
+V0.0.9: Improved initpopup to allow choosing a serial port, backend becomes more refined for the chosen form of serial communication (calling commands that reside on the arduino)
+V0.0.9.5: InitPopup can now save/load settings, backend expanded. Refactored packages for better naming, Pattern classes collapsed from 3 to 2, no more LED and Pixel Classes, only LED renamed as Pixel.
+V0.1.0 (CommDev): Massive reoganization, throwing out multiple classes in favor of a better structure that follows SRP and open-closed principles.
+V0.1.1 (ColorExt): GUI can now control Arduino, SerialComms now static for easier passing between Patterns.
 V0.2 (ProtoDuino): User selected color values with text boxes and sliders. The Prototype.
-V0.21 (NeoPixPat): Added more patterns for the Arduino, all based upon the striptest example file given for neopixels. Pattern delays implemented. Implemented single color picking from the GUI.
-V0.22 (SysError): Added a pattern that sends bytes to signal the arduino to clear its buffer, also a pattern showing memory used, and CPU usage.
+V0.2.1 (NeoPixPat): Added more patterns for the Arduino, all based upon the striptest example file given for neopixels. Pattern delays implemented. Implemented single color picking from the GUI.
+V0.2.2 (SysError): Added a pattern that sends bytes to signal the arduino to clear its buffer, also a pattern showing memory used, and CPU usage.
 V0.3 (RectDyn): Dynamic colors and delays for patterns, visualized with rectangles. Changed color of the background, pattern superclass works better. However, rectangles not tied in with backend, so project no longer works.
+V0.3.1 (TiedRect): Fixed some bugs with color values on the rectangles, also the rectangles got tied into the pattern objects to provide colors and delays.
 
 Roadmap:
 
@@ -25,6 +26,6 @@ V1.0: Init popup cleaned up (at least colors changed to match main GUI)
 (A more specific roadmap)
 
 V0.9: Key Press pattern
-V0.91: Date/Time pattern
-V0.92: CPU/mem pattern
+V0.9.1: Date/Time pattern
+V0.9.2: CPU/mem pattern
 V1.0: Colors changed on the initialization pop-up, main GUI explicitly states delay and color rectangle panes

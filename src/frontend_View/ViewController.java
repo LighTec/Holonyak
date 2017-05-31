@@ -136,6 +136,7 @@ public class ViewController {
     public void setPatternColor(int r, int g, int b, int index) {
 
         try {
+            //System.out.println(r + " " + g + " " + b + "   " + index);
             pattern.setColor(r, g, b, index);
         } catch (NullPointerException e) {
             AlertBox alert = new AlertBox(new Dimension(400, 200), "Set color error", "Please choose a pattern before setting its color.");
@@ -145,6 +146,7 @@ public class ViewController {
     }
 
     public void setPatternDelay(int wait, int index) {
+        //System.out.println(wait + "   " + index);
         try {
             pattern.setDelay(wait, index);
         } catch (NullPointerException e) {

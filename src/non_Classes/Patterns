@@ -26,11 +26,7 @@ closer to the point.
 Math.random at x interval to each LED, either a hard cut to it or a cycle. ( random color generation, also possibly
 using Math.random for which LED to change).
 
-Detection for applications to change patterns
-
 Key presses cause a flash going x quick with a width of y.
-
-Device battery life?
 
 Text scrolling at x speed.
 
