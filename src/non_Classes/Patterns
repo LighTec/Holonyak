@@ -23,14 +23,14 @@ and j colours between them, and have the colour between the points a
 mathematical average between them, with one colour more visible as it gets 
 closer to the point.
 
-Math.random at x interval to each LED, either a hard cut to it or a cycle.
+Math.random at x interval to each LED, either a hard cut to it or a cycle. ( random color generation, also possibly
+using Math.random for which LED to change).
 
 Detection for applications to change patterns
 
 Key presses cause a flash going x quick with a width of y.
 
 Device battery life?
-
 
 Text scrolling at x speed.
 
@@ -39,5 +39,17 @@ Matrix-type pattern with falling flashes of light with trails behind
 Audio spectrum visualizer, low decibel frequencies start at x colour, then
 once it gets louder morph to y colour and finally near max volume morph to z
 colour.
+
+Tetris?
+
+Ability to have patterns que up into mega-patterns (do color fill, wait 25ms, rainbow for 2000ms w/ 5ms delay, etc.)
+
+Falling LED's, filling up the display. Like the block stacker machine at lazer quest.
+
+Random color fill, pick which pixel to fill next randomly.
+
+Colors based on system values (date, time, system resources(http://docs.oracle.com/javase/7/docs/jre/api/management/extension/com/sun/management/OperatingSystemMXBean.html))
+
+
 
 

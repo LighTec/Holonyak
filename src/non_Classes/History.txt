@@ -10,21 +10,21 @@ V0.10 (CommDev): Massive reoganization, throwing out multiple classes in favor o
 V0.11 (ColorExt): GUI can now control Arduino, SerialComms now static for easier passing between Patterns.
 V0.2 (ProtoDuino): User selected color values with text boxes and sliders. The Prototype.
 V0.21 (NeoPixPat): Added more patterns for the Arduino, all based upon the striptest example file given for neopixels. Pattern delays implemented. Implemented single color picking from the GUI.
-
+V0.22 (SysError): Added a pattern that sends bytes to signal the arduino to clear its buffer, also a pattern showing memory used, and CPU usage.
+V0.3 (RectDyn): Dynamic colors and delays for patterns, visualized with rectangles. Changed color of the background, pattern superclass works better. However, rectangles not tied in with backend, so project no longer works.
 
 Roadmap:
 
 (General roadmap)
 
-V0.2 Basic pattern implementation
-V0.3 Advanced pattern implementation
-V0.9 GUI cleanup, CSS usage possibly
-V1.0 Serial error detection
+V0.3 GUI cleanup
+V0.9 Advanced Patterns
+V1.0: Init popup cleaned up (at least colors changed to match main GUI)
 
 
 (A more specific roadmap)
 
-V0.22: Send text to display on LED matrix
-V0.3: Patterns with multiple colors as parameters
-V0.31: Key press recognition, auto sending key presses to arduino
-V0.32: Audio visualization from system sound
+V0.9: Key Press pattern
+V0.91: Date/Time pattern
+V0.92: CPU/mem pattern
+V1.0: Colors changed on the initialization pop-up, main GUI explicitly states delay and color rectangle panes

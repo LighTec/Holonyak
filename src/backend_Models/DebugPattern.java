@@ -16,10 +16,20 @@ import frontend_View.Settings;
  *
  * @author kell-gigabyte
  */
-public class RainbowPattern extends Pattern {
+public class DebugPattern extends Pattern {
 
-    public RainbowPattern(Settings set, SerialComms serial) throws GeneralSettingsException {
-        super(set, serial, 6, 0, 1);
-        Kaizen_85.newEvent("Rainbow Pattern Set.");
+        public DebugPattern(Settings set, SerialComms serial) throws GeneralSettingsException {
+        super(set, serial, 255, 0, 0);
+        Kaizen_85.newEvent("Debug Pattern Set");
+    }
+    
+    @Override
+    public void sendPattern(){
+        Kaizen_85.newEvent("Debug Pattern started...");
+         byte[] b = new byte[80];
+            for(int i = 0; i < b.length; i++){
+                b[i] = (byte)(255 & 0xFF);
+            }
+            getSerialComms().write(b);
     }
 }

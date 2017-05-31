@@ -10,7 +10,7 @@
 package Unused;
 
 import backend_Models.GeneralSettingsException;
-import frontend_ViewController.Settings;
+import frontend_View.Settings;
 import java.awt.Color;
 
 /**

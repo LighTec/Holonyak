@@ -13,7 +13,7 @@ import Unused.PixelControl;
 import app_Controller.Kaizen_85;
 import backend_Models.GeneralSettingsException;
 import backend_Models.SerialComms;
-import frontend_ViewController.Settings;
+import frontend_View.Settings;
 import java.awt.Color;
 
 /**

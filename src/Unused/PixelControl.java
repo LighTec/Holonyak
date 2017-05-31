@@ -14,7 +14,7 @@ import backend_Models.Pixel;
 import backend_Models.Pixel;
 import backend_Models.SerialComms;
 import backend_Models.SerialComms;
-import frontend_ViewController.Settings;
+import frontend_View.Settings;
 import java.awt.Color;
 
 /**

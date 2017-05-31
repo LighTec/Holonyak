@@ -16,10 +16,10 @@ import frontend_View.Settings;
  *
  * @author kell-gigabyte
  */
-public class RainbowPattern extends Pattern {
+public class DateAndTimePattern extends Pattern {
 
-    public RainbowPattern(Settings set, SerialComms serial) throws GeneralSettingsException {
-        super(set, serial, 6, 0, 1);
-        Kaizen_85.newEvent("Rainbow Pattern Set.");
+    public DateAndTimePattern(Settings set, SerialComms serial) throws GeneralSettingsException {
+        super(set, serial, -2, 0, 0);
+        Kaizen_85.newEvent("Date/Time Pattern Set.");
     }
 }

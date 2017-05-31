@@ -1,0 +1,5 @@
+Byte values used to signal special tasks on the Arduino:
+
+255: sent 80 times to exit out of any pattern
+100: key press action
+0: Exit out of key press pattern

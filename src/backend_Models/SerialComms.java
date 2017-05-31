@@ -7,7 +7,7 @@ import app_Controller.Kaizen_85;
 import arduinocomms2.AlertBox;
 import arduinocomms2.Arduino;
 import com.fazecast.jSerialComm.SerialPort;
-import frontend_ViewController.Settings;
+import frontend_View.Settings;
 import java.awt.Dimension;
 import java.io.Closeable;
 import java.util.Formatter;

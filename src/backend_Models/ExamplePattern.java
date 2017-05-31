@@ -9,22 +9,20 @@
  */
 package backend_Models;
 
-import frontend_ViewController.Settings;
+import frontend_View.Settings;
 
 /**
  *
  * @author kell-gigabyte
  */
 public class ExamplePattern extends Pattern {
-
-    private final int CMDNUMBER = 9999;
     
-    public ExamplePattern(Settings set, SerialComms serial) {
-        super(set, serial);
+    public ExamplePattern(Settings set, SerialComms serial) throws GeneralSettingsException {
+        super(set, serial, 9999, 0, 0);
     }
     
     @Override
-    public void startPattern() {
+    public void start() {
         throw new UnsupportedOperationException("Cannot start the example pattern, because IT IS AN EXAMPLE AND HAS NO CODE IN IT DUMMY.");
          // make a byte array of the command number plus the three colors plus the delay, as [cmd] [red] [green] [blue] [timer] [timer]
          

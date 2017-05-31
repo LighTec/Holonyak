@@ -7,7 +7,7 @@
  * can be found as a .ino file recognizable by the arduino IDE, within the zip package of this
  * program.
  */
-package frontend_ViewController;
+package frontend_View;
 
 import app_Controller.Kaizen_85;
 import arduinocomms2.AlertBox;

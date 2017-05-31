@@ -10,29 +10,16 @@
 package backend_Models;
 
 import app_Controller.Kaizen_85;
-import frontend_ViewController.Settings;
+import frontend_View.Settings;
 
 /**
  *
  * @author kell-gigabyte
  */
 public class RainbowCyclePattern extends Pattern {
-
-    private final int CMDNUMBER = 7;
-
-    public RainbowCyclePattern(Settings set, SerialComms serial) {
-        super(set, serial);
+    
+    public RainbowCyclePattern(Settings set, SerialComms serial) throws GeneralSettingsException {
+        super(set, serial, 7, 0, 1);
+        Kaizen_85.newEvent("Rainbow Cycle Pattern Set.");
     }
-
-    @Override
-    public void startPattern() {
-        Kaizen_85.newEvent("Rainbow Cycle Pattern Started.");
-
-      byte[] b = new byte[3];
-            b[0] = (byte) this.CMDNUMBER;
-            b[1] = (byte) ((getDelay() >> 8)& 0xFF);
-            b[2] = (byte) (getDelay()& 0xFF);
-            getSerialComms().write(b);
-    }
-
 }
