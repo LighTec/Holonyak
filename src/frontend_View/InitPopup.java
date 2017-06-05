@@ -179,8 +179,10 @@ public class InitPopup {
                     printer.close();
                     fw.close();
                     AlertBox alert = new AlertBox(new Dimension(200, 100), "Success", "Success saving settings.");
+                    alert.display();
                 } catch (IOException ex) {
                     AlertBox alert = new AlertBox(new Dimension(400, 100), "Folder Error", "Error writing to folder. Try again.");
+                    alert.display();
                 }
             }
         });

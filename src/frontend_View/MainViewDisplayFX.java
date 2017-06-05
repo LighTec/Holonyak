@@ -12,9 +12,13 @@ package frontend_View;
 import app_Controller.Kaizen_85;
 import arduinocomms2.AlertBox;
 import backend_Models.GeneralSettingsException;
+import backend_Models.KeyPressRectangle;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,6 +26,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -35,6 +42,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
 
 /**
  *
@@ -79,9 +90,35 @@ public class MainViewDisplayFX extends Application {
     private final String hexDelayBox = "78866B";
     private final String hexSliderBox = "007FFF";
 
+    private boolean nativeKeyActive = false;
+    private boolean lastRectangleKeyRect = false;
+    private KeyPressRectangle keyRect = new KeyPressRectangle(200, 25, Color.BLACK);
+
+    private NativeKeyListener keyListener = new NativeKeyListener() {
+        @Override
+        public void nativeKeyPressed(NativeKeyEvent e) {
+            //System.out.println(NativeKeyEvent.getKeyText(e.getKeyCode()));
+            getMVControl().keyReact();
+        }
+
+        @Override
+        public void nativeKeyReleased(NativeKeyEvent e) {
+            //System.out.println("Key Released: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        }
+
+        @Override
+        public void nativeKeyTyped(NativeKeyEvent e) {
+            //System.out.println("Key Typed: " + e.getKeyText(e.getKeyCode()));
+        }
+    };
+
+    public ViewController getMVControl() {
+        return this.MVControl;
+    }
+
     @Override
     public void start(Stage primaryStage) throws GeneralSettingsException {
-        primaryStage.setTitle("Capstone V0.21 NeoPixPat");
+        primaryStage.setTitle("CrazyLights V1: KeyListen");
         primaryStage.getIcons().add(new Image("/JavaFX_Resources/icon256.png"));
         primaryStage.getIcons().add(new Image("/JavaFX_Resources/icon128.png"));
         primaryStage.getIcons().add(new Image("/JavaFX_Resources/icon64.png"));
@@ -108,6 +145,25 @@ public class MainViewDisplayFX extends Application {
         this.MVControl = new ViewController(settings);
 
         primaryStage.setScene(scene);
+
+        try {
+            GlobalScreen.registerNativeHook();
+        } catch (NativeHookException ex) {
+            Logger.getLogger(MainViewDisplayFX.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        primaryStage.setOnCloseRequest(event -> {
+            //System.out.println("Stage is closing");
+            try {
+                GlobalScreen.unregisterNativeHook();
+            } catch (NativeHookException ex) {
+                Logger.getLogger(MainViewDisplayFX.class.getName()).log(Level.SEVERE, null, ex);
+
+            }
+        });
+        Logger logger = Logger.getLogger(GlobalScreen.class.getPackage().getName());
+        logger.setLevel(Level.OFF);
+        logger.setUseParentHandlers(false);
+
         Kaizen_85.newEvent("Init complete, showing main stage.");
         primaryStage.show();
     }
@@ -215,6 +271,11 @@ public class MainViewDisplayFX extends Application {
         Text greenTitle = new Text("Green: ");
         Text blueTitle = new Text("Blue: ");
         Text delayTitle = new Text("Delay: ");
+        Text keyReactTitle = new Text("Flashes when a key is pressed?");
+
+        ToggleButton keyReact = new ToggleButton("False");
+        ToggleGroup aKeyReact = new ToggleGroup();
+        keyReact.setToggleGroup(aKeyReact);
 
         this.redSlider.setMin(0);
         this.greenSlider.setMin(0);
@@ -266,17 +327,32 @@ public class MainViewDisplayFX extends Application {
             updateDelaySliders();
         });
 
+        aKeyReact.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> ov, Toggle toggle, Toggle new_toggle) -> {
+            if (this.nativeKeyActive) {
+                GlobalScreen.removeNativeKeyListener(this.keyListener);
+                this.nativeKeyActive = false;
+                keyReact.setText("False");
+            } else {
+                GlobalScreen.addNativeKeyListener(this.keyListener);
+                this.nativeKeyActive = true;
+                keyReact.setText("True");
+            }
+        });
+
         grid.add(sceneTitle, 0, 0, 2, 1);
 
         grid.add(redTitle, 0, 1);
         grid.add(greenTitle, 0, 2);
         grid.add(blueTitle, 0, 3);
         grid.add(delayTitle, 0, 4);
+        grid.add(keyReactTitle, 0, 5, 2, 1);
 
         grid.add(this.redSlider, 1, 1);
         grid.add(this.greenSlider, 1, 2);
         grid.add(this.blueSlider, 1, 3);
         grid.add(this.delaySlider, 1, 4);
+
+        grid.add(keyReact, 2, 5);
 
         grid.add(this.redField, 2, 1);
         grid.add(this.greenField, 2, 2);
@@ -311,9 +387,19 @@ public class MainViewDisplayFX extends Application {
         Button TheaterChaseRainbowBtn = new Button("Rainbow Chase");
         TheaterChaseRainbowBtn.setOnAction(this::TheaterChaseRainbowPattern);
 
+        Button TimeBtn = new Button("Time Based Colors");
+        TimeBtn.setOnAction(this::TimePattern);
+
+        Button CpuMemBtn = new Button("Cpu/Mem Usage");
+        CpuMemBtn.setOnAction(this::CpuMemPattern);
+
+        /*
+        Button TextBtn = new Button("Scrolling Text");
+        TextBtn.setOnAction(this::TextPattern);
+         */
         // HelloBtn.setText("Say 'Hello World'");
         //  HelloBtn.setOnAction(this::HelloWorld);
-        flow.getChildren().addAll(ColorFillBtn, RainbowBtn, RainbowCycleBtn, TheaterChaseBtn, TheaterChaseRainbowBtn);
+        flow.getChildren().addAll(ColorFillBtn, RainbowBtn, RainbowCycleBtn, TheaterChaseBtn, TheaterChaseRainbowBtn, TimeBtn, CpuMemBtn);
 
         return flow;
     }
@@ -327,10 +413,24 @@ public class MainViewDisplayFX extends Application {
         Button StartBtn = new Button("Start");
         StartBtn.setOnAction(this::startPattern);
 
+        this.keyRect.setOnMouseClicked((MouseEvent t) -> {
+            this.setLastRectangle();
+            this.lastRectangleKeyRect = true;
+            int red, green, blue, delay;
+            red = this.keyRect.getRed();
+            green = this.keyRect.getGreen();
+            blue = this.keyRect.getBlue();
+            delay = this.keyRect.getDelay();
+            this.setColorSliders(red, green, blue);
+            this.setDelaySlider(delay);
+            //System.out.println("Key press rect pressed.");
+            this.enableAllSliders();
+        });
+
         HBox hb = new HBox();
         hb.setPadding(new Insets(0, 10, 10, 10));
         hb.setSpacing(10);
-        hb.getChildren().addAll(StartBtn);
+        hb.getChildren().addAll(this.keyRect, StartBtn);
 
         anchorpane.getChildren().addAll(grid, hb);
         // Anchor buttons to bottom right, anchor grid to top
@@ -358,23 +458,42 @@ public class MainViewDisplayFX extends Application {
     }
 
     private void RainbowCyclePattern(ActionEvent event) {
-        Kaizen_85.newEvent(" pattern set.");
+        Kaizen_85.newEvent("Rainbow cycle pattern set.");
         this.MVControl.setRainbowCyclePattern();
         updateRectangles(this.MVControl.getPattern().getAmountOfColors(), this.MVControl.getPattern().getAmountOfDelays());
     }
 
     private void TheaterChasePattern(ActionEvent event) {
-        Kaizen_85.newEvent(" pattern set.");
+        Kaizen_85.newEvent("Theater chase pattern set.");
         this.MVControl.setTheaterChasePattern();
         updateRectangles(this.MVControl.getPattern().getAmountOfColors(), this.MVControl.getPattern().getAmountOfDelays());
     }
 
     private void TheaterChaseRainbowPattern(ActionEvent event) {
-        Kaizen_85.newEvent(" pattern set.");
+        Kaizen_85.newEvent("Theater Chase rainbow pattern set.");
         this.MVControl.setTheaterChaseRainbowPattern();
         updateRectangles(this.MVControl.getPattern().getAmountOfColors(), this.MVControl.getPattern().getAmountOfDelays());
     }
 
+    private void TimePattern(ActionEvent event) {
+        Kaizen_85.newEvent(" pattern set");
+        this.MVControl.setTimePattern();
+        updateRectangles(this.MVControl.getPattern().getAmountOfColors(), this.MVControl.getPattern().getAmountOfDelays());
+    }
+
+    private void CpuMemPattern(ActionEvent event) {
+        Kaizen_85.newEvent(" pattern set");
+        this.MVControl.setCpuMemPattern();
+        updateRectangles(this.MVControl.getPattern().getAmountOfColors(), this.MVControl.getPattern().getAmountOfDelays());
+    }
+
+    /*
+    private void TextPattern(ActionEvent event){
+        Kaizen_85.newEvent(" pattern set");
+        this.MVControl.setTextPattern();
+        updateRectangles(this.MVControl.getPattern().getAmountOfColors(), this.MVControl.getPattern().getAmountOfDelays());
+    }
+     */
     private void ClearColors(ActionEvent event) {
         this.MVControl.ClearPattern();
     }
@@ -448,14 +567,15 @@ public class MainViewDisplayFX extends Application {
         rect.setStroke(Color.BLACK);
 
         rect.setOnMouseClicked((MouseEvent t) -> {
+            if (this.lastRectangleKeyRect) {
+                this.updateKeyPressRect();
+                this.lastRectangleKeyRect = false;
+            }
             if (this.lastRect == null) {
                 this.lastRect = rect;
+                this.setColorSlidersToCurrentRectangle(rect);
             } else {
-                if (isColor) {
-                    this.setRectangles(rect);
-                } else {
-                    this.setRectangles(rect);
-                }
+                this.setRectangles(rect);
             }
             disableSliders(isColor);
 
@@ -494,6 +614,17 @@ public class MainViewDisplayFX extends Application {
         }
     }
 
+    private void enableAllSliders() {
+        this.redSlider.setDisable(false);
+        this.redField.setDisable(false);
+        this.greenSlider.setDisable(false);
+        this.greenField.setDisable(false);
+        this.blueSlider.setDisable(false);
+        this.blueField.setDisable(false);
+        this.delaySlider.setDisable(false);
+        this.delayField.setDisable(false);
+    }
+
 
     /*
     private void Pattern(ActionEvent event){
@@ -503,12 +634,21 @@ public class MainViewDisplayFX extends Application {
      */
     private void startPattern(ActionEvent event) {
         Kaizen_85.newEvent("Pattern button pressed, pattern starting.");
-        this.setRectangles();
-        this.sendRectangleValues();
+        this.MVControl.setEnableKeyReact(this.nativeKeyActive);
+        if (this.MVControl.getPattern().getAmountOfColors() == 0 && this.MVControl.getPattern().getAmountOfDelays() == 0) {
+        } else {      // If no colors or delays, skip sending the rectangles' values (except for the key press one)
+            this.setLastRectangle();
+            this.sendRectangleValues();
+        }
+        if (this.lastRectangleKeyRect) {
+            this.updateKeyPressRect();
+        }
+        this.MVControl.setKeyReactSettings(this.keyRect);
         this.MVControl.startPattern();
     }
 
     private void setRectangles(Rectangle newRectangle) {
+        //System.out.println("Setting old rectangle values");
         int colorIndex = this.colorRectArr.indexOf(this.lastRect);
         int delayIndex = this.delayRectArr.indexOf(this.lastRect);
         if (colorIndex < 0 && delayIndex > -1) {
@@ -518,36 +658,42 @@ public class MainViewDisplayFX extends Application {
             this.greenArr.set(colorIndex, (int) Math.round(this.greenSlider.getValue()));
             this.blueArr.set(colorIndex, (int) Math.round(this.blueSlider.getValue()));
         } else {
-            AlertBox alert = new AlertBox(new Dimension(400, 200), "Pattern Start Error", "Could not find the last Rectangle in either array... ???");
-            alert.display();
+            //AlertBox alert = new AlertBox(new Dimension(400, 200), "Pattern Start Error", "Could not find the last Rectangle in either array... ???");
+            //alert.display();
         }
-        
-        int newIndexColor = this.colorRectArr.indexOf(newRectangle);
-        int newIndexDelay = this.delayRectArr.indexOf(newRectangle);
         this.lastRect = newRectangle;
-        
-        if(newIndexColor < 0 && newIndexDelay > -1){
-            this.setDelaySlider(this.delayArr.get(newIndexDelay));
-        }else if(newIndexColor > -1 && newIndexDelay < 0){
-            this.setColorSliders(this.redArr.get(newIndexColor), this.greenArr.get(newIndexColor), this.blueArr.get(newIndexColor));
-        }else{
-            AlertBox alert = new AlertBox(new Dimension(400, 200), "Pattern Start Error", "Could not find the current Rectangle in either array... ???");
-            alert.display();
-        }
+        this.setColorSlidersToCurrentRectangle(newRectangle);
     }
 
-    private void setRectangles() {
+    private void setLastRectangle() {
+        //System.out.println("Setting old rectangle values, and setting lastRect to null");
         int colorIndex = this.colorRectArr.indexOf(this.lastRect);
         int delayIndex = this.delayRectArr.indexOf(this.lastRect);
         if (colorIndex < 0 && delayIndex > -1) {
             this.delayArr.set(delayIndex, (int) Math.round(this.delaySlider.getValue()));
-
         } else if (colorIndex > -1 && delayIndex < 0) {
             this.redArr.set(colorIndex, (int) Math.round(this.redSlider.getValue()));
             this.greenArr.set(colorIndex, (int) Math.round(this.greenSlider.getValue()));
             this.blueArr.set(colorIndex, (int) Math.round(this.blueSlider.getValue()));
         } else {
-            AlertBox alert = new AlertBox(new Dimension(400, 200), "Pattern Start Error", "Could not find the last Rectangle in either array... ???");
+            //AlertBox alert = new AlertBox(new Dimension(400, 200), "Pattern Start Error", "Could not find the last Rectangle in either array... ???");
+            //alert.display();
+        }
+        this.lastRect = null;
+    }
+
+    private void setColorSlidersToCurrentRectangle(Rectangle rect) {
+        //System.out.println("Setting color sliders to the current rectangle");
+        int indexColor = this.colorRectArr.indexOf(rect);
+        int indexDelay = this.delayRectArr.indexOf(rect);
+        if (indexColor < 0 && indexDelay > -1) {
+            this.setDelaySlider(this.delayArr.get(indexDelay));
+            this.updateDelayText();
+        } else if (indexColor > -1 && indexDelay < 0) {
+            this.setColorSliders(this.redArr.get(indexColor), this.greenArr.get(indexColor), this.blueArr.get(indexColor));
+            this.updateColorText();
+        } else {
+            AlertBox alert = new AlertBox(new Dimension(400, 200), "Pattern Start Error", "Could not find the current Rectangle in either array... ???");
             alert.display();
         }
     }
@@ -590,7 +736,14 @@ public class MainViewDisplayFX extends Application {
         this.redSlider.setValue(red);
         this.greenSlider.setValue(green);
         this.blueSlider.setValue(blue);
-        this.lastRect.setFill(Color.rgb(red, green, blue));
+        if (!this.lastRectangleKeyRect) {
+            this.lastRect.setFill(Color.rgb(red, green, blue));
+        } else {
+            this.keyRect.setRed(red);
+            this.keyRect.setGreen(green);
+            this.keyRect.setBlue(blue);
+            this.keyRect.updateColors();
+        }
     }
 
     private void updateColorText() { // updates text fields from sliders
@@ -621,7 +774,14 @@ public class MainViewDisplayFX extends Application {
         this.redField.setText(r);
         this.greenField.setText(g);
         this.blueField.setText(b);
-        this.lastRect.setFill(Color.rgb(red, green, blue));
+        if (!this.lastRectangleKeyRect) {
+            this.lastRect.setFill(Color.rgb(red, green, blue));
+        } else {
+            this.keyRect.setRed(red);
+            this.keyRect.setGreen(green);
+            this.keyRect.setBlue(blue);
+            this.keyRect.updateColors();
+        }
     }
 
     private void updateDelayText() { // updates text fields from sliders
@@ -638,7 +798,9 @@ public class MainViewDisplayFX extends Application {
         int red = delay % 255;
         int green = (delay + 86) % 255;
         int blue = (delay + 172) % 255;
-        this.lastRect.setFill(Color.rgb(red, green, blue));
+        if (!this.lastRectangleKeyRect) {
+            this.lastRect.setFill(Color.rgb(red, green, blue));
+        }
     }
 
     private void updateDelaySliders() { // updates sliders from text fields
@@ -659,7 +821,9 @@ public class MainViewDisplayFX extends Application {
         int red = delay % 255;
         int green = (delay + 86) % 255;
         int blue = (delay + 172) % 255;
-        this.lastRect.setFill(Color.rgb(red, green, blue));
+        if (!this.lastRectangleKeyRect) {
+            this.lastRect.setFill(Color.rgb(red, green, blue));
+        }
     }
 
     private void setColorSliders(int red, int green, int blue) {
@@ -691,5 +855,10 @@ public class MainViewDisplayFX extends Application {
             this.MVControl.setPatternDelay(delay, i);
             i++;
         }
+    }
+
+    private void updateKeyPressRect() {
+        System.out.println("Saving key rect settings");
+        this.keyRect.setAll((int) Math.round(this.redSlider.getValue()), (int) Math.round(this.greenSlider.getValue()), (int) Math.round(this.blueSlider.getValue()), (int) Math.round(this.delaySlider.getValue()));
     }
 }

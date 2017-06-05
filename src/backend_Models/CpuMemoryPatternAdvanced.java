@@ -19,10 +19,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
+ * @Broken, not completed due to brain dying out due to the maths involved
  * @author kell-gigabyte
  */
-public class CpuMemoryPattern extends Pattern implements Runnable {
+public class CpuMemoryPatternAdvanced extends Pattern implements Runnable {
 
     private OperatingSystemMXBean bean = (OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
 
@@ -32,17 +32,27 @@ public class CpuMemoryPattern extends Pattern implements Runnable {
     private BigDecimal memTotal;
     private BigDecimal Cpu;
 
-    private final int MAXPIXEL = 1024; // the most that can be represented per segment
+    private int totalPixels;
+    private int CpuPixels;
+    private int MemPixels;
+    private final int MAXPIXEL = (255 + 255 + 255); // the most that can be represented per pixel
+    private final int MAXVALUECPU;
+    private final int MAXVALUERAM;
 
-    public CpuMemoryPattern(Settings set, SerialComms serial) throws GeneralSettingsException {
-        super(set, serial, 1, 0, 0, 0, 2);
+    public CpuMemoryPatternAdvanced(Settings set, SerialComms serial) throws GeneralSettingsException {
+        super(set, serial, 2, 0, 0, 2, 0);
         Kaizen_85.newEvent("CPU/MEM Pattern Set.");
-        //System.out.println("CPUMEM STARTED");
+        this.totalPixels = (set.getStripWidth() * set.getStripWidth());
+        this.CpuPixels = (this.totalPixels / 2) - 1;
+        this.MemPixels = this.totalPixels - this.CpuPixels;
+        this.MAXVALUECPU = this.MAXPIXEL * this.CpuPixels;
+        this.MAXVALUERAM = this.MAXPIXEL * this.MemPixels;
+        System.out.println("Max number for CPU: " + this.MAXVALUECPU + ", Max value for RAM: " + this.MAXVALUERAM);
     }
 
     @Override
     public void start() {
-        this.ses.scheduleAtFixedRate(this, 0, 1, TimeUnit.SECONDS); // updates 2 times a second
+        this.ses.scheduleAtFixedRate(this, 0, 333, TimeUnit.MILLISECONDS); // updates 3 times a second
         super.start();
     }
 
@@ -53,19 +63,17 @@ public class CpuMemoryPattern extends Pattern implements Runnable {
 
     @Override
     public void run() {
-        //System.out.println("CPUMEM RUN");
+        int cpuRed, cpuGreen, cpuBlue, memRed, memGreen, memBlue;
         this.memTotal = new BigDecimal(bean.getTotalPhysicalMemorySize());
         this.memFree = new BigDecimal(bean.getFreePhysicalMemorySize());
-        //System.out.println("Got after mem get");
         this.Cpu = new BigDecimal(bean.getSystemCpuLoad());
-        //System.out.println("Got after cpu get");
-        int CpuLoad = (int) (this.Cpu.doubleValue() * this.MAXPIXEL);
-        int memLoad = (int) ((1 - (memFree.doubleValue() / memTotal.doubleValue())) * this.MAXPIXEL);
-        //System.out.println("Got after int parsing");
-        this.setUpdateDelay(CpuLoad, 0);
-        this.setUpdateDelay(memLoad, 1);
-        //System.out.println("Got after setting the ints");
+        int CpuLoad = (int) (this.Cpu.floatValue() * this.MAXVALUECPU);
+        int memLoad = (int) ((this.memFree.doubleValue() / this.memTotal.doubleValue()) * this.MAXVALUERAM);
+        cpuRed = ((CpuLoad >> 16) & 0xFF);
+        // this.setUpdateColor(CpuLoad, new Color(cpuRed, cpuGreen, cpuBlue));
+        // this.setUpdateColor(memLoad, new Color(memRed, memGreen, memBlue));
         this.updatePattern();
         System.out.println("Calculated CPU: " + CpuLoad + ", and calculeted RAM: " + memLoad);
+        //System.out.println("Percentages: CPU " + CpuLoad / 655.36 + "% Mem " + memLoad / 655.36 + "%");
     }
 }

@@ -12,15 +12,17 @@ package frontend_View;
 import app_Controller.Kaizen_85;
 import arduinocomms2.AlertBox;
 import backend_Models.ColorFillPattern;
+import backend_Models.CpuMemoryPattern;
 import backend_Models.DebugPattern;
 import backend_Models.GeneralSettingsException;
+import backend_Models.KeyPressRectangle;
 import backend_Models.Pattern;
 import backend_Models.RainbowCyclePattern;
 import backend_Models.RainbowPattern;
 import backend_Models.SerialComms;
 import backend_Models.TheaterChasePattern;
 import backend_Models.TheaterChaseRainbowPattern;
-import java.awt.Color;
+import backend_Models.TimePattern;
 import java.awt.Dimension;
 
 /**
@@ -60,11 +62,32 @@ public class ViewController {
         pattern = pat;
     }
 
+    public void keyReact() {
+        try {
+            pattern.keyEvent();
+        } catch (NullPointerException e) {
+
+        }
+    }
+
+    public void setEnableKeyReact(boolean b) {
+        try {
+            pattern.setEnableKeyEvent(b);
+        } catch (NullPointerException e) {
+
+        }
+    }
+
+    public void setKeyReactSettings(KeyPressRectangle kpr) {
+        pattern.setKeyPressSettings(kpr);
+    }
+
     /**
      * Sets the pattern as a fill, just "fills in" all of the pixels, 1 by 1,
      * with the delay being the wait time between each pixel being filled in.
      */
     public void setFillPattern() {
+        this.endPattern();
         try {
             pattern = new ColorFillPattern(this.settings, serialComms);
         } catch (GeneralSettingsException ex) {
@@ -77,6 +100,7 @@ public class ViewController {
      * constantly, at a set delay between each color change.
      */
     public void setRainbowPattern() {
+        this.endPattern();
         try {
             pattern = new RainbowPattern(this.settings, serialComms);
         } catch (GeneralSettingsException ex) {
@@ -89,6 +113,7 @@ public class ViewController {
      * to be "flowing".
      */
     public void setRainbowCyclePattern() {
+        this.endPattern();
         try {
             pattern = new RainbowCyclePattern(this.settings, serialComms);
         } catch (GeneralSettingsException ex) {
@@ -100,6 +125,7 @@ public class ViewController {
      * One pixel on, the next two off. Then shifts the "on" pixel over by 1.
      */
     public void setTheaterChasePattern() {
+        this.endPattern();
         try {
             pattern = new TheaterChasePattern(this.settings, serialComms);
         } catch (GeneralSettingsException ex) {
@@ -113,6 +139,7 @@ public class ViewController {
      * the LED strip / matrix.
      */
     public void setTheaterChaseRainbowPattern() {
+        this.endPattern();
         try {
             pattern = new TheaterChaseRainbowPattern(this.settings, serialComms);
         } catch (GeneralSettingsException ex) {
@@ -120,7 +147,26 @@ public class ViewController {
         }
     }
 
+    public void setTimePattern() {
+        this.endPattern();
+        try {
+            pattern = new TimePattern(this.settings, serialComms);
+        } catch (GeneralSettingsException ex) {
+            System.err.println("Pattern generation failed.");
+        }
+    }
+
+    public void setCpuMemPattern() {
+        this.endPattern();
+        try {
+            pattern = new CpuMemoryPattern(this.settings, serialComms);
+        } catch (GeneralSettingsException ex) {
+            System.err.println("Pattern generation failed.");
+        }
+    }
+
     public void setDebugPattern() {
+        this.endPattern();
         try {
             pattern = new DebugPattern(this.settings, serialComms);
         } catch (GeneralSettingsException ex) {
@@ -128,6 +174,16 @@ public class ViewController {
         }
     }
 
+    /*
+    public void setTextPattern(){
+    this.endPattern();
+        try{
+            pattern = new TextPattern(this.settings, serialComms);
+        } catch (GeneralSettingsException ex) {
+            System.err.println("Pattern generation failed.");
+        }
+    }
+     */
     public void debugDisplay() {
         setDebugPattern();
         pattern.start();
@@ -185,8 +241,18 @@ public class ViewController {
     public void ClearPattern() {
         Kaizen_85.newEvent("Clearing color and setting pattern to null.");
         setFillPattern();
-        this.getPattern().setColor(Color.BLACK, 0);
+        pattern.setColor(0, 0, 0, 0);
+        pattern.setDelay(0, 0);
+        pattern.setKeyPressSettings(new KeyPressRectangle(33, 33, 0, 0, 0, 0));
         pattern.start();
         pattern = null;
+    }
+
+    private void endPattern() {
+        try {
+            pattern.stop();
+        } catch (NullPointerException e) {
+
+        }
     }
 }

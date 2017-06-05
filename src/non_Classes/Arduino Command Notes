@@ -1,0 +1,48 @@
+Byte values used to signal special tasks on the Arduino:
+
+255: sent 80 times to exit out of any pattern
+127: key press action
+255: Exit out of  pattern
+100: If the pattern is meant to update, next bytes are update data
+
+Current Pattern commands:
+0:  Not Available
+1:  Unused
+2:  Unused
+3:  Unused
+4:  Color Wipe
+5:  Theater Chase
+6:  1 Color at a time Rainbow 
+7:  Spectrum Rainbow
+8:  Theater Chase Rainbow
+9 & 10: Old implementations of theater chase
+
+Planned Pattern commands:
+0:  Not Available
+1:  Time
+2:  CPU/Mem
+3:  Text
+4:  Color Wipe
+5:  Theater Chase
+6:  1 Color at a time Rainbow 
+7:  Spectrum Rainbow
+8:  Theater Chase Rainbow
+
+A normal pattern initialization byte array is as follows:
+1            255     
+2            Command num
+3            R for key press
+4            G for key press
+5            B for key press
+6-7         Delay for key press (2 bytes)
+8 to x     RGB Values for Colors (3 bytes per color: 1 for red, 1 for green, 1 for blue)
+x to y     Delay values (2 bytes per delay)
+
+CPU/Mem Palette: (If color not described, it is 0)
+0: Blue 255
+1-255: Blue 255, Green 1-255, (Green Increasing)
+256-511: Blue 255-1, Green 255, (Blue Decreasing)
+512-767: Green 255, Red 1-255 (Red Increasing)
+768-1023: Green 255-1, Red 255 (Green Decreasing)
+1024: Red 255
+
