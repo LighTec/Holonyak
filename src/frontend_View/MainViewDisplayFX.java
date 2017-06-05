@@ -88,7 +88,7 @@ public class MainViewDisplayFX extends Application {
     private final String hexButtonBox = "BA0101";
     private final String hexColorBox = "FFFFF0";
     private final String hexDelayBox = "78866B";
-    private final String hexSliderBox = "007FFF";
+    private final String hexSliderBox = "90AFFF";
 
     private boolean nativeKeyActive = false;
     private boolean lastRectangleKeyRect = false;
@@ -118,7 +118,7 @@ public class MainViewDisplayFX extends Application {
 
     @Override
     public void start(Stage primaryStage) throws GeneralSettingsException {
-        primaryStage.setTitle("CrazyLights V1: KeyListen");
+        primaryStage.setTitle("Holonyak V1.0: PanelClear");
         primaryStage.getIcons().add(new Image("/JavaFX_Resources/icon256.png"));
         primaryStage.getIcons().add(new Image("/JavaFX_Resources/icon128.png"));
         primaryStage.getIcons().add(new Image("/JavaFX_Resources/icon64.png"));

@@ -60,6 +60,12 @@ public class InitPopup {
     private int pin;
 
     SerialPort currentPort;
+    
+    private final String hexGrey1 = "4A444B";
+    private final String hexRed = "BA0101";
+    private final String hexOffWhite = "FFFFF0";
+    private final String hexGrey2 = "78866B";
+    private final String hexBlue = "90AFFF";
 
     public InitPopup() {
 
@@ -93,12 +99,12 @@ public class InitPopup {
 
     private void createStage() {         // creates the GUI for the popup
         Dialog dialog = new Dialog<>();
-        dialog.setTitle("Hello!");
-        dialog.setHeaderText("Hello, I'd just like you to let me know about your LED strip.");
+        dialog.setTitle("Holonyak V1.0: PanelClear");
+        //dialog.setHeaderText("Hello, I'd just like you to let me know about your LED strip.");
 
         ButtonType confirmButtonType = new ButtonType("Enter", ButtonData.APPLY);
         dialog.getDialogPane().getButtonTypes().addAll(confirmButtonType);
-        dialog.getDialogPane().setStyle("-fx-background-color: #404040;");
+        dialog.getDialogPane().setStyle("-fx-background-color: #"+ this.hexGrey1 + ";");
 
         String StripStr = "In a Strip";
         String MatrixStr = "In a Matrix";
@@ -238,7 +244,7 @@ public class InitPopup {
         });
 
         GridPane grid = new GridPane();
-        grid.setStyle("-fx-background-color: #FF9933;");
+        grid.setStyle("-fx-background-color: #"+ this.hexBlue + ";");
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(20, 150, 10, 10));
