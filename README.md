@@ -1,3 +1,6 @@
 # CapstoneArduino
 2017 Capstone project-- Razer Chroma for an Arduino and RBG strips.
-In the pre-alpha design phase, Do not download or use without understanding this is more of a shell than a program.
+Version 1! Should work with any adafruit LED strip, and any coomputer and arduino. However,
+it is only tested on a Arduino Uno, and an Adafruit 8X8 Neopixel Panel.
+
+
