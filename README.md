@@ -22,7 +22,7 @@ Also has a button that "debugs" the arduino IO by sending it tons of 255 values,
 which should trigger it to clear its buffer, and wait for further input.
 
 
-Possible future patterns; (no promises, anythign with a (?) is unlikely)
+Possible future patterns; (no promises, anything with a (?) is unlikely)
 - Matrix-style falling effect
 - Audio visualization(?)
 - Wave (1-8 Colors moving in a direction at a specified speed)
