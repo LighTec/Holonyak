@@ -21,6 +21,11 @@ Current patterns implemented (All patterns can detect key presses):
 Also has a button that "debugs" the arduino IO by sending it tons of 255 values, 
 which should trigger it to clear its buffer, and wait for further input.
 
+Shoutout to these authors, for keeping their code open-source. This project would not have happened without the libraries they provided:
+ - kwhat and the [jnativehook library](https://github.com/kwhat/jnativehook)
+ - Fazecast and the [JSerialComm library](https://github.com/Fazecast/jSerialComm)
+ - HirdayGupta and the extension to the JSerialComm library, [Java-Arduino-Communication-Library](https://github.com/HirdayGupta/Java-Arduino-Communication-Library)
+
 
 Possible future patterns; (no promises, anything with a (?) is unlikely)
 - Matrix-style falling effect
