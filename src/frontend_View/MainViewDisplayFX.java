@@ -124,6 +124,12 @@ public class MainViewDisplayFX extends Application {
         primaryStage.getIcons().add(new Image("/JavaFX_Resources/icon64.png"));
         primaryStage.getIcons().add(new Image("/JavaFX_Resources/icon32.png"));
         primaryStage.getIcons().add(new Image("/JavaFX_Resources/icon16.png"));
+        
+        primaryStage.getIcons().add(new Image("File:/JavaFX_Resources/icon32.png"));
+        
+        for(int i = 0; i < 1000; i++){
+            double d = Math.hypot(6000.01321321521, 126523.14142131);
+        }
 
         BorderPane root = new BorderPane();
 
@@ -556,7 +562,7 @@ public class MainViewDisplayFX extends Application {
         int defaultGreen = 0;
         int defaultBlue = 0;
         int defaultDelay = 0;
-        Color defaultDelayColor = Color.CADETBLUE;
+        Color defaultDelayColor = Color.CHARTREUSE;
 
         if (isColor) {
             rect.setFill(Color.rgb(defaultRed, defaultGreen, defaultBlue));
