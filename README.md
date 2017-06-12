@@ -10,13 +10,13 @@ You will also need to upload the provided .ino file to your arduino. To do so,
 I'd recommend the [Arduino IDE](https://www.arduino.cc/en/Main/Software).
 
 Current patterns implemented (All patterns can detect key presses):
-Color Fill
-Theater Chase (support to choose all 3 positions)
-Rainbow
-Rainbow Cycle
-Theater Chase: Rainbow Edition
-Hex Clock
-Ram / CPU usage
+- Color Fill
+- Theater Chase (support to choose all 3 positions)
+- Rainbow
+- Rainbow Cycle
+- Theater Chase: Rainbow Edition
+- Hex Clock
+- Ram / CPU usage
 
 Also has a button that "debugs" the arduino IO by sending it tons of 255 values, 
 which should trigger it to clear its buffer, and wait for further input.
