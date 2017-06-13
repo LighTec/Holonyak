@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=Holonyak
+Comment=Hello World!
+Exec=java -jar /usr/local/Holonyak-V1.0/Capstone.jar
+Icon=/usr/local/Holonyak-V1.0/lib/icon32.png
+Terminal=false
+Type=Application
+Categories=Utility;Application;
+Name[en_CA]=Holonyak
