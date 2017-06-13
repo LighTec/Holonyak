@@ -6,6 +6,8 @@ Neopixel range of products
 
 However, it is only tested on a Arduino Uno, and an Adafruit 8X8 Neopixel Panel.
 
+In order to start the program, run Capstone.jar from either the dist or Holonyak folders, or run the installer shell and then run the .desktop file. (warning: the installer shell only works for linux)
+
 You will also need to upload the provided .ino file to your arduino. To do so,
 I'd recommend the [Arduino IDE](https://www.arduino.cc/en/Main/Software).
 
