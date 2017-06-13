@@ -1,5 +1,5 @@
 # Holonyak
-2017 Capstone project-- Razer Chroma for an Arduino and RBG strips.
+2017 Capstone project-- Razer Chroma for an Arduino and RGB strips.
 Version 1! Should work with any computer, and Arduino. 
 Works with LED chips using WS2812, WS2811 and SK6812 drivers, like the Adafruit
 Neopixel range of products
