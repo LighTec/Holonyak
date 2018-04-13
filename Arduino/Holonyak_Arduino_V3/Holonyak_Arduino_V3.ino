@@ -161,6 +161,12 @@ void loop() {
       }
       theaterChaseRainbow();
       break;
+    case 9:
+      if (newCmd) {
+        newCmd = false;
+      }
+      setFrame();
+      break;
     case 255:
       strip.setPixelColor(strip.numPixels() - 1, strip.Color(50, 0, 0));
       strip.setPixelColor(0, strip.Color(50, 0, 0));
@@ -488,9 +494,8 @@ int heatPaletteBlue(int pal) {
   }
 }
 
-/*
-  //sets certain pixels various color levels.
-  void setPixel() {
+//sets certain pixels various color levels.
+void setPixel() {
   while (Serial.available() < 5) {  // unused code
   }
   pixel = Serial.read();
@@ -501,5 +506,27 @@ int heatPaletteBlue(int pal) {
 
   strip.setPixelColor(pixel, red, green, blue);
   strip.show();
+}
+
+//sets all pixels discrete rgb values.
+void setFrame() {
+  while (true) {
+    while (Serial.available() == 0) {
+    }
+    keyPeek = Serial.peek();
+    if (keyPeek == 255) {
+      break;
+    }
+    throwaway = Serial.read();
+    for (int i = 0; i < strip.numPixels(); i++) {
+      while (Serial.available() < 3) {
+      }
+      red = Serial.read();
+      green = Serial.read();
+      blue = Serial.read();
+
+      strip.setPixelColor(i, red, green, blue);
+    }
+    strip.show();
   }
-*/
+}

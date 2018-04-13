@@ -23,6 +23,7 @@ import backend_Models.SerialComms;
 import backend_Models.TheaterChasePattern;
 import backend_Models.TheaterChaseRainbowPattern;
 import backend_Models.TimePattern;
+import backend_Models.tetris.TetrisPattern;
 import java.awt.Dimension;
 
 /**
@@ -169,6 +170,15 @@ public class ViewController {
         this.endPattern();
         try {
             pattern = new DebugPattern(this.settings, serialComms);
+        } catch (GeneralSettingsException ex) {
+            System.err.println("Pattern generation failed.");
+        }
+    }
+    
+    public void setTetrisPattern() {
+        this.endPattern();
+        try {
+            pattern = new TetrisPattern(this.settings, serialComms);
         } catch (GeneralSettingsException ex) {
             System.err.println("Pattern generation failed.");
         }

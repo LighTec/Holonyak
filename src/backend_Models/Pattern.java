@@ -34,7 +34,7 @@ public abstract class Pattern {
     private int[] updateDelays;
 
     private byte[] startBytes;
-    private byte[] updateBytes;
+    private byte[] bArr;
 
     private final Settings settings;
     private static SerialComms serialcomms;
@@ -369,15 +369,15 @@ public abstract class Pattern {
         }
         int updateByteLength = (colors * 3) + (delays * 2) + 1;
         //System.out.println(updateByteLength);
-        this.updateBytes = new byte[updateByteLength];
-        //System.out.println("Byte Array length for updating: " + this.updateBytes.length);
-        this.updateBytes[0] = (byte) (100 & 0xFF);
+        this.bArr = new byte[updateByteLength];
+        //System.out.println("Byte Array length for updating: " + this.bArr.length);
+        this.bArr[0] = (byte) (100 & 0xFF);
         int currentByteIndex = 1;
         if (this.updateColors != null) {
             for (Color temp : this.updateColors) {
-                this.updateBytes[currentByteIndex] = (byte) (temp.getRed() & 0xFF);
-                this.updateBytes[currentByteIndex + 1] = (byte) (temp.getGreen() & 0xFF);
-                this.updateBytes[currentByteIndex + 2] = (byte) (temp.getBlue() & 0xFF);
+                this.bArr[currentByteIndex] = (byte) (temp.getRed() & 0xFF);
+                this.bArr[currentByteIndex + 1] = (byte) (temp.getGreen() & 0xFF);
+                this.bArr[currentByteIndex + 2] = (byte) (temp.getBlue() & 0xFF);
                 currentByteIndex += 3;
             }
         }
@@ -386,15 +386,15 @@ public abstract class Pattern {
             //System.out.println("updateDelays is not null");
             for (int i : this.updateDelays) {
                 //System.out.println("Delay setting begin");
-                this.updateBytes[currentByteIndex] = (byte) ((i >> 8) & 0xFF);
-                this.updateBytes[currentByteIndex+ 1] = (byte) (i & 0xFF);
+                this.bArr[currentByteIndex] = (byte) ((i >> 8) & 0xFF);
+                this.bArr[currentByteIndex+ 1] = (byte) (i & 0xFF);
                // System.out.println("Single Delay Done.");
                 currentByteIndex += 2;
             }
         }
         //System.out.println("Done delays and colors......");
-        this.sendByteArray(this.updateBytes);
-        this.printByteArray(this.updateBytes, "To update the display");
+        this.sendByteArray(this.bArr);
+        //this.printByteArray(this.bArr, "To update the display");
     }
 
     //public void start(DemoDisplay d);           // will implement a demoDisplay for the GUI later hopefully.

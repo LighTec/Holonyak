@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,6 +31,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -93,6 +95,8 @@ public class MainViewDisplayFX extends Application {
     private boolean nativeKeyActive = false;
     private boolean lastRectangleKeyRect = false;
     private KeyPressRectangle keyRect = new KeyPressRectangle(200, 25, Color.BLACK);
+    
+    private Scene KeyboardHookableScene;
 
     private NativeKeyListener keyListener = new NativeKeyListener() {
         @Override
@@ -141,16 +145,17 @@ public class MainViewDisplayFX extends Application {
 
         root.setCenter(addAnchorPane(addGridPane()));
 
-        Scene scene = new Scene(root);
+        this.KeyboardHookableScene = new Scene(root);
 
         InitPopup InfoGetter = new InitPopup();
         InfoGetter.run();
 
         Settings settings = InfoGetter.SaveSettings();
+        settings.setSavedScene(KeyboardHookableScene);
 
         this.MVControl = new ViewController(settings);
 
-        primaryStage.setScene(scene);
+        primaryStage.setScene(this.KeyboardHookableScene);
 
         try {
             GlobalScreen.registerNativeHook();
@@ -398,6 +403,9 @@ public class MainViewDisplayFX extends Application {
 
         Button CpuMemBtn = new Button("Cpu/Mem Usage");
         CpuMemBtn.setOnAction(this::CpuMemPattern);
+        
+        Button TetrisBtn = new Button("Tetris");
+        TetrisBtn.setOnAction(this::TetrisPattern);
 
         /*
         Button TextBtn = new Button("Scrolling Text");
@@ -405,7 +413,7 @@ public class MainViewDisplayFX extends Application {
          */
         // HelloBtn.setText("Say 'Hello World'");
         //  HelloBtn.setOnAction(this::HelloWorld);
-        flow.getChildren().addAll(ColorFillBtn, RainbowBtn, RainbowCycleBtn, TheaterChaseBtn, TheaterChaseRainbowBtn, TimeBtn, CpuMemBtn);
+        flow.getChildren().addAll(ColorFillBtn, RainbowBtn, RainbowCycleBtn, TheaterChaseBtn, TheaterChaseRainbowBtn, TimeBtn, CpuMemBtn, TetrisBtn);
 
         return flow;
     }
@@ -482,14 +490,20 @@ public class MainViewDisplayFX extends Application {
     }
 
     private void TimePattern(ActionEvent event) {
-        Kaizen_85.newEvent(" pattern set");
+        Kaizen_85.newEvent("Hex Clock pattern set");
         this.MVControl.setTimePattern();
         updateRectangles(this.MVControl.getPattern().getAmountOfColors(), this.MVControl.getPattern().getAmountOfDelays());
     }
 
     private void CpuMemPattern(ActionEvent event) {
-        Kaizen_85.newEvent(" pattern set");
+        Kaizen_85.newEvent("Cpu + Mem usage pattern set");
         this.MVControl.setCpuMemPattern();
+        updateRectangles(this.MVControl.getPattern().getAmountOfColors(), this.MVControl.getPattern().getAmountOfDelays());
+    }
+    
+    private void TetrisPattern(ActionEvent event){
+        Kaizen_85.newEvent("Tetris pattern set");
+        this.MVControl.setTetrisPattern();
         updateRectangles(this.MVControl.getPattern().getAmountOfColors(), this.MVControl.getPattern().getAmountOfDelays());
     }
 

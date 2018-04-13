@@ -11,6 +11,7 @@ package frontend_View;
 
 import app_Controller.Kaizen_85;
 import com.fazecast.jSerialComm.SerialPort;
+import javafx.scene.Scene;
 
 /**
  *
@@ -26,6 +27,8 @@ public class Settings {
     private int stripWidth;
     
     private boolean debugMode = false;
+    
+    private Scene mainScene;
     
     
     public Settings(boolean isMatrix, String patternFolder, int stripLength, int stripWidth, SerialPort serialport, int pin){
@@ -66,5 +69,13 @@ public class Settings {
     
     public boolean getDebugMode(){
         return this.debugMode;
+    }
+    
+    public void setSavedScene(Scene s){
+        this.mainScene = s;
+    }
+    
+    public Scene getSavedScene(){
+        return this.mainScene;
     }
 }
