@@ -1,6 +1,6 @@
 # Holonyak
 2017 Capstone project-- Razer Chroma for an Arduino and RGB strips.
-Version 1! Should work with any computer, and Arduino. 
+Version 1.1! Should work with any computer, and Arduino. 
 Works with LED chips using WS2812, WS2811 and SK6812 drivers, like the Adafruit
 Neopixel range of products
 
@@ -19,6 +19,7 @@ Current patterns implemented (All patterns can detect key presses):
 - Theater Chase: Rainbow Edition
 - Hex Clock
 - Ram / CPU usage
+- Tetris
 
 Also has a button that "debugs" the arduino IO by sending it tons of 255 values, 
 which should trigger it to clear its buffer, and wait for further input.

@@ -15,7 +15,4 @@ V0.3 (RectDyn): Dynamic colors and delays for patterns, visualized with rectangl
 V0.3.1 (TiedRect): Fixed some bugs with color values on the rectangles, also the rectangles got tied into the pattern objects to provide colors and delays.
 V0.9 (ExecuteAndListen): Added the ability for all patterns to detect key presses, and react by flashing a given color and time. Changed initial byte array for initializing patterns. Time pattern and CPU/Mem Patterns implemented.
 V1.0 (PanelClear): Initialization and main windows cleaned up visually to look better. Named the Program Holonyak, after the inventor of the first visible light LED.
-
-Roadmap:
-
-V1.0: Init popup cleaned up (at least colors changed to match main GUI)
+V1.1 (TetronimoPanel): Added Tetris as a gamemode, which led to also adding functionality for hooking keyboard input to the main window.

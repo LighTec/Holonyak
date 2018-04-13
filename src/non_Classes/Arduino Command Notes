@@ -7,26 +7,18 @@ Byte values used to signal special tasks on the Arduino:
 
 Current Pattern commands:
 0:  Not Available
-1:  Unused
-2:  Unused
-3:  Unused
+1:  CPU/Mem
+2:  Single Color Updateable Wipe (can have keyboard interrupts)
+3:  Color Wipe without a delay argument
 4:  Color Wipe
 5:  Theater Chase
 6:  1 Color at a time Rainbow 
 7:  Spectrum Rainbow
 8:  Theater Chase Rainbow
-9 & 10: Old implementations of theater chase
+9:  SetFrame (iterates over each pixel, expecting r,g,b values over serial for each pixel)
 
 Planned Pattern commands:
-0:  Not Available
-1:  Time
-2:  CPU/Mem
-3:  Text
-4:  Color Wipe
-5:  Theater Chase
-6:  1 Color at a time Rainbow 
-7:  Spectrum Rainbow
-8:  Theater Chase Rainbow
+(None planned)
 
 A normal pattern initialization byte array is as follows:
 1            255     
